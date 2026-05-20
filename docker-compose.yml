@@ -1,0 +1,24 @@
+services:
+  blog:
+    build:
+      context: ./blog
+      dockerfile: Dockerfile
+    image: self-introduction/blog:latest
+    container_name: self-introduction-blog
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    restart: unless-stopped
+
+  blog-timeline:
+    build:
+      context: ./blog-timeline
+      dockerfile: Dockerfile
+    image: self-introduction/blog-timeline:latest
+    container_name: self-introduction-blog-timeline
+    ports:
+      - "3001:3000"
+    environment:
+      NODE_ENV: production
+    restart: unless-stopped
