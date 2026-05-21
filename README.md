@@ -1,36 +1,29 @@
 # Self-Introduction
 
-自己紹介サイトのモノレポ。Next.js アプリを Docker でコンテナ化し、Google Cloud (Cloud Run) へのデプロイを想定した構成。
+自己紹介サイト。Next.js アプリを Docker でコンテナ化し、Google Cloud (Cloud Run) へのデプロイを想定した構成。
 
 ## 構成
 
 ```
 Self-Introduction/
-├── blog/              # Next.js アプリ (ポート 3000)
-├── blog-timeline/     # Next.js アプリ (ポート 3001)
-├── portfolio/         # （未実装）
-├── Self-Introduce.html
+├── blog/              # Next.js アプリ
 ├── docker-compose.yml
 └── README.md
 ```
 
 ## ローカル開発
 
-各アプリ個別:
-
 ```bash
 cd blog && npm install && npm run dev
-cd blog-timeline && npm install && npm run dev
 ```
 
-## Docker でまとめて起動
+## Docker で起動
 
 ```bash
 docker compose up --build
 ```
 
-- blog: http://localhost:3000
-- blog-timeline: http://localhost:3001
+http://localhost:3000
 
 停止:
 
@@ -39,8 +32,6 @@ docker compose down
 ```
 
 ## Cloud Run へのデプロイ
-
-各アプリ個別にデプロイする。例: `blog`
 
 ```bash
 # 1. Artifact Registry にイメージを push
@@ -55,5 +46,3 @@ gcloud run deploy blog \
   --allow-unauthenticated \
   --port 3000
 ```
-
-`blog-timeline` も同様の手順でデプロイ可能。
