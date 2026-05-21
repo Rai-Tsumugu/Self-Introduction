@@ -256,8 +256,8 @@ function TimelinePanel() {
         <div className="pf-eyebrow">05 — Timeline</div>
         <h1 className="pf-h1">A short <em>log</em>.</h1>
         <p className="pf-lede serif">
-          ピンポイントの日付と、並列して進む活動期間を同時に表示。
-          ストライプにマウスを乗せると詳細が浮かびます。1ヶ月 = 80px、上が最新。
+          これまでの活動を、時系列でざっと眺められるページ。
+          活動内容を記入中です。
         </p>
       </div>
       <Timeline />

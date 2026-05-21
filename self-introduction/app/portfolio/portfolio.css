@@ -330,6 +330,8 @@ body { min-height: 100vh; }
 .p2a3-stripe { position: absolute; border: 1px solid var(--line); border-radius: 4px; overflow: visible; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; align-items: center; z-index: 2; cursor: pointer; transition: transform 0.15s; }
 .p2a3-stripe:hover { z-index: 20; transform: scale(1.04); }
 .p2a3-stripe-cap { width: 100%; height: 5px; flex-shrink: 0; }
+.p2a3-stripe.is-ongoing { border-top: none; border-top-left-radius: 0; border-top-right-radius: 0; }
+.p2a3-stripe.is-ongoing::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 24px; background: linear-gradient(to bottom, var(--bg), transparent); pointer-events: none; z-index: 1; }
 .p2a3-stripe-label { writing-mode: vertical-rl; text-orientation: upright; font-size: 11px; font-weight: 600; color: var(--ink); padding: 8px 0; letter-spacing: 0.02em; line-height: 1.05; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-height: calc(100% - 10px); }
 .p2a3-popover { position: absolute; top: 0; left: calc(100% + 10px); width: 220px; background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--line); border-radius: 6px; padding: 10px 12px; box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: opacity 0.15s; z-index: 30; }
 .p2a3-stripe:hover .p2a3-popover { opacity: 1; pointer-events: auto; }
