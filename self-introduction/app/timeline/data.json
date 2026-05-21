@@ -1,8 +1,20 @@
 {
   "scale": {
     "pxPerMonth": 80,
-    "note": "1ヶ月 = 80px。すべてのバリアントでこのスケールを基準にする"
+    "note": "1ヶ月あたりのピクセル高さ。スケールはここで一元管理"
   },
+  "range": {
+    "start": null,
+    "end": null,
+    "note": "null の場合は events/spans から自動算出。明示したい場合は \"YYYY-MM\" を入れる"
+  },
+  "categories": [
+    { "key": "project",   "label": "Project" },
+    { "key": "work",      "label": "Work" },
+    { "key": "community", "label": "Community" },
+    { "key": "hackathon", "label": "Hackathon" },
+    { "key": "event",     "label": "Event" }
+  ],
   "events": [
     {
       "id": "evt-2025-02-elec",
