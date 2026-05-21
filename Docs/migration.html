@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移行手順書: 現環境 → Vercel + Cloudflare DNS</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --accent: #2563eb;
+    --agent: #10b981;
+    --agent-confirm: #0891b2;
+    --manual: #dc2626;
+    --verify: #7c3aed;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .container { max-width: 1040px; margin: 0 auto; padding: 48px 24px; }
+  header.doc-header {
+    border-left: 6px solid var(--accent);
+    padding: 8px 0 8px 20px;
+    margin-bottom: 24px;
+  }
+  header.doc-header h1 { margin: 0 0 8px; font-size: 26px; }
+  header.doc-header .meta { color: var(--muted); font-size: 14px; }
+  .legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 20px 0 32px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+  }
+  .tag {
+    display: inline-block;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .tag.agent { background: var(--agent); }
+  .tag.confirm { background: var(--agent-confirm); }
+  .tag.manual { background: var(--manual); }
+  .tag.verify { background: var(--verify); }
+
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin: 0 0 32px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .flow div {
+    padding: 10px 6px;
+    border-radius: 6px;
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+  .flow .a { border-top: 3px solid var(--agent); }
+  .flow .m { border-top: 3px solid var(--manual); }
+  .flow .v { border-top: 3px solid var(--verify); }
+
+  h2.section {
+    font-size: 20px;
+    margin: 40px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+  h2.section .ph {
+    display: inline-block;
+    font-size: 12px;
+    color: #fff;
+    background: var(--accent);
+    padding: 2px 10px;
+    border-radius: 999px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  .step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+  }
+  .step.agent { border-left-color: var(--agent); }
+  .step.confirm { border-left-color: var(--agent-confirm); }
+  .step.manual { border-left-color: var(--manual); }
+  .step.verify { border-left-color: var(--verify); }
+  .step-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .step-id {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--muted);
+    font-family: "SF Mono", Menlo, monospace;
+  }
+  .step h3 { margin: 0; font-size: 16px; }
+  .step p, .step li { font-size: 14px; }
+  .step pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .step code {
+    background: #f3f4f6;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+  .step pre code { background: transparent; padding: 0; color: inherit; }
+  .step ul { padding-left: 20px; }
+
+  .warn {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 13.5px;
+    color: #991b1b;
+  }
+  .note {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 13.5px;
+    color: #065f46;
+  }
+  .info {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 13.5px;
+    color: #1e40af;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 13.5px;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: #f9fafb; font-size: 12.5px; }
+
+  .checklist {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 24px;
+  }
+  .checklist label {
+    display: block;
+    font-size: 14px;
+    padding: 4px 0;
+    cursor: pointer;
+  }
+  .checklist input[type="checkbox"] { margin-right: 8px; }
+  footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="doc-header">
+    <h1>移行手順書: 現環境 → Vercel + Cloudflare DNS</h1>
+    <div class="meta">Self-Introduction プロジェクト / 人間用ビジュアル仕様書 (2026-05-21)</div>
+  </header>
+
+  <p>
+    現在ローカルで <code>docker compose up</code> 起動している Next.js サイトを、
+    <strong>Vercel ホスティング + Cloudflare DNS (DNS only) + GitHub 連動</strong> の本番構成に移行するための手順書です。
+    各ステップに <strong>「誰が行うか」のタグ</strong>を付けています。Agent (Claude Code) が実行できるものと、人間が UI で行う必要があるものを明確に区別しています。
+  </p>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item">
+      <span class="tag agent">AGENT</span>
+      <div>Agent が自動実行可能（破壊的でないコマンド・ファイル編集など）</div>
+    </div>
+    <div class="legend-item">
+      <span class="tag confirm">AGENT:確認後</span>
+      <div>Agent が実行するが、内容を提示して<strong>承認後</strong>に行う（コミット・PR 作成・ファイル削除など）</div>
+    </div>
+    <div class="legend-item">
+      <span class="tag manual">MANUAL</span>
+      <div><strong>人間が UI 操作</strong>で行う。Agent は代行不可（ブラウザログイン・ダッシュボード設定など）</div>
+    </div>
+    <div class="legend-item">
+      <span class="tag verify">VERIFY</span>
+      <div>Agent が検証コマンドを実行し結果を報告（dig / curl / openssl など）</div>
+    </div>
+  </div>
+
+  <!-- Flow -->
+  <h2 class="section">全体フロー</h2>
+  <div class="flow">
+    <div class="a"><strong>Phase A</strong><br>事前棚卸し<br><small>AGENT</small></div>
+    <div class="a"><strong>Phase B</strong><br>コード整備<br><small>AGENT</small></div>
+    <div class="m"><strong>Phase C</strong><br>Vercel 構築<br><small>MANUAL</small></div>
+    <div class="m"><strong>Phase D</strong><br>DNS 切替<br><small>MANUAL+VERIFY</small></div>
+    <div class="v"><strong>Phase E</strong><br>切替後検証<br><small>VERIFY</small></div>
+    <div class="a"><strong>Phase F</strong><br>旧環境整理<br><small>AGENT:確認後</small></div>
+  </div>
+
+  <!-- Phase A -->
+  <h2 class="section"><span class="ph">Phase A</span>事前棚卸し</h2>
+
+  <div class="step agent">
+    <div class="step-head"><span class="step-id">A-1</span><span class="tag agent">AGENT</span><h3>現状の構成確認</h3></div>
+    <p>Agent が以下のコマンドを並列実行し、リポジトリ状態・モノレポ構造・現行 <code>docker-compose.yml</code> の中身・<code>.env</code> 系ファイルの有無を 1 メッセージで要約報告します。</p>
+    <pre><code>git status / git branch / git remote -v
+ls self-introduction/
+cat self-introduction/package.json
+cat docker-compose.yml</code></pre>
+  </div>
+
+  <div class="step confirm">
+    <div class="step-head"><span class="step-id">A-2</span><span class="tag confirm">AGENT:確認後</span><h3>ドメイン情報のヒアリング</h3></div>
+    <p>Agent から以下を質問します:</p>
+    <ul>
+      <li>独自ドメイン名 (例: <code>example.com</code>)</li>
+      <li>apex / www のどちらを Primary にするか</li>
+      <li>既存サービスが稼働中か、許容ダウンタイム</li>
+      <li>Cloudflare の DNS 編集権限を持っているか</li>
+    </ul>
+    <p>取得した値は以降の手順で <code>${DOMAIN}</code> / <code>${PRIMARY}</code> として一貫使用されます。</p>
+  </div>
+
+  <div class="step agent">
+    <div class="step-head"><span class="step-id">A-3</span><span class="tag agent">AGENT</span><h3><code>.gitignore</code> の安全確認</h3></div>
+    <p><code>.env</code> / <code>.env.local</code> が ignore されているかを確認。漏れがあれば <span class="tag confirm">AGENT:確認後</span> で追記 PR を提案します。</p>
+  </div>
+
+  <!-- Phase B -->
+  <h2 class="section"><span class="ph">Phase B</span>移行前のコード整備</h2>
+
+  <div class="step confirm">
+    <div class="step-head"><span class="step-id">B-1</span><span class="tag confirm">AGENT:確認後</span><h3><code>next.config.ts</code> にセキュリティヘッダ追加</h3></div>
+    <p>HSTS / X-Frame-Options / X-Content-Type-Options / Referrer-Policy / Permissions-Policy を追加。差分を提示し承認後に編集します。</p>
+  </div>
+
+  <div class="step agent">
+    <div class="step-head"><span class="step-id">B-2</span><span class="tag agent">AGENT</span><h3>ローカルでビルド検証</h3></div>
+    <p>Vercel と同条件で通るか事前確認。失敗時はここで停止し原因を報告します。</p>
+    <pre><code>cd self-introduction && npm ci && npm run build</code></pre>
+  </div>
+
+  <div class="step confirm">
+    <div class="step-head"><span class="step-id">B-3</span><span class="tag confirm">AGENT:確認後</span><h3>作業ブランチ作成 + コミット</h3></div>
+    <p>ブランチ名: <code>chore/vercel-migration</code>。Conventional Commits + 日本語本文 + <code>git add</code> は個別指定。</p>
+  </div>
+
+  <div class="step confirm">
+    <div class="step-head"><span class="step-id">B-4</span><span class="tag confirm">AGENT:確認後</span><h3>PR 作成（マージはまだ）</h3></div>
+    <p><code>gh pr create</code> で PR を作成。Vercel 連携後に Preview URL を確認してからマージします。</p>
+  </div>
+
+  <!-- Phase C -->
+  <h2 class="section"><span class="ph">Phase C</span>Vercel セットアップ</h2>
+
+  <div class="warn">
+    Phase C はすべて <strong>Vercel Web UI でのログイン操作</strong>が必要なため、原則 <span class="tag manual">MANUAL</span> です。Agent は手順テキストを提示し、各ステップ完了を待ってから次に進みます。
+  </div>
+
+  <div class="step manual">
+    <div class="step-head"><span class="step-id">C-1</span><span class="tag manual">MANUAL</span><h3>Vercel アカウント + GitHub 連携</h3></div>
+    <ol>
+      <li><a href="https://vercel.com/signup" target="_blank" rel="noopener">https://vercel.com/signup</a> を開く</li>
+      <li><strong>Continue with GitHub</strong> をクリック</li>
+      <li>GitHub OAuth 認可画面で <code>Authorize Vercel</code></li>
+    </ol>
+  </div>
+
+  <div class="step manual">
+    <div class="step-head"><span class="step-id">C-2</span><span class="tag manual">MANUAL</span><h3>プロジェクト作成</h3></div>
+    <ol>
+      <li>Vercel ダッシュボード → <strong>Add New → Project</strong></li>
+      <li><code>Self-Introduction</code> リポジトリの <strong>Import</strong></li>
+      <li><strong>Root Directory</strong> を <code>self-introduction</code> に変更（最重要）</li>
+      <li>Framework Preset が <code>Next.js</code> と表示されることを確認</li>
+      <li>Build / Install / Output は<strong>空欄のまま</strong></li>
+      <li><strong>Deploy</strong> をクリック</li>
+    </ol>
+    <div class="note">完了したら発行された <code>*.vercel.app</code> の URL を Agent に共有してください。</div>
+  </div>
+
+  <div class="step manual">
+    <div class="step-head"><span class="step-id">C-3</span><span class="tag manual">MANUAL</span><h3>プロジェクト設定の追記</h3></div>
+    <ul>
+      <li>Settings → General → <strong>Node.js Version: 20.x</strong></li>
+      <li>Settings → Git → <strong>Production Branch: main</strong></li>
+      <li>Settings → Git → <strong>Preview Deployments: All branches</strong></li>
+      <li>Settings → Git → <strong>Comments on PRs / Commit Comments を ON</strong></li>
+    </ul>
+  </div>
+
+  <div class="step manual">
+    <div class="step-head"><span class="step-id">C-4</span><span class="tag manual">MANUAL</span><span class="tag agent">AGENT 補助</span><h3>環境変数の登録</h3></div>
+    <p>Agent が <code>grep -rE "process\.env\." self-introduction/</code> でアプリ内の参照を走査し、登録漏れ候補を提示します。実際の登録は Vercel UI で <span class="tag manual">MANUAL</span>:</p>
+    <ul>
+      <li>Settings → Environment Variables で <strong>Production / Preview / Development を分離</strong></li>
+      <li>シークレットには <strong>Sensitive フラグ</strong>を立てる</li>
+      <li><code>NEXT_PUBLIC_</code> プレフィックスはシークレットには絶対付けない</li>
+    </ul>
+    <div class="info">現状の <code>docker-compose.yml</code> は <code>NODE_ENV=production</code> のみ。これは Vercel が自動付与するため登録不要です。</div>
+  </div>
+
+  <div class="step manual">
+    <div class="step-head"><span class="step-id">C-5</span><span class="tag manual">MANUAL</span><h3>独自ドメインを Vercel に登録</h3></div>
+    <ol>
+      <li>Settings → Domains → <strong>Add</strong> で <code>${DOMAIN}</code> を入力</li>
+      <li>続けて <code>www.${DOMAIN}</code> も追加</li>
+      <li>Primary を選択、もう一方は <strong>Redirect</strong> に設定</li>
+      <li>「Invalid Configuration」と表示されますが、この時点では正常です（DNS 未設定のため）</li>
+    </ol>
+    <div class="note">Vercel が指示する CNAME ターゲット <code>cname.vercel-dns.com</code> を Agent に共有してください。</div>
+  </div>
+
+  <!-- Phase D -->
+  <h2 class="section"><span class="ph">Phase D</span>DNS 切替</h2>
+
+  <div class="step agent">
+    <div class="step-head"><span class="step-id">D-1</span><span class="tag agent">AGENT</span><h3>現行 DNS をスナップショット保存</h3></div>
+    <p>切戻し用に既存レコードを <code>Docs/dns-snapshot-YYYYMMDD.txt</code> に保存します。</p>
+    <pre><code>dig ${DOMAIN} +short
+dig www.${DOMAIN} +short
+dig ${DOMAIN} TXT +short
+dig ${DOMAIN} MX +short</code></pre>
+  </div>
+
+  <div class="step manual">
+    <div class="step-head"><span class="step-id">D-2</span><span class="tag manual">MANUAL</span><h3>Cloudflare で TTL を 300 秒に短縮（切替前夜）</h3></div>
+    <p>切戻しを高速化するため、既存レコードの TTL を <strong>300 秒 (5 min)</strong> に変更しておきます。</p>
+  </div>
+
+  <div class="step manual">
+    <div class="step-head"><span class="step-id">D-3</span><span class="tag manual">MANUAL</span><h3>Cloudflare DNS レコード切替</h3></div>
+    <ol>
+      <li>既存の apex / www 向け A / AAAA / CNAME を<strong>削除</strong>（スナップショットは D-1 で保存済み）</li>
+      <li>以下 2 件を追加:</li>
+    </ol>
+    <table>
+      <thead><tr><th>Type</th><th>Name</th><th>Target</th><th>Proxy</th></tr></thead>
+      <tbody>
+        <tr><td>CNAME</td><td><code>@</code></td><td><code>cname.vercel-dns.com</code></td><td><strong>DNS only (グレー雲)</strong></td></tr>
+        <tr><td>CNAME</td><td><code>www</code></td><td><code>cname.vercel-dns.com</code></td><td><strong>DNS only (グレー雲)</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="warn">
+      <strong>⚠ 絶対にオレンジ雲 (Proxied) にしない。</strong>
+      ACME チャレンジ失敗で SSL 発行が止まり、二重 CDN による無限リダイレクト、実クライアント IP 喪失といった障害が同時多発します。
+    </div>
+  </div>
+
+  <div class="step verify">
+    <div class="step-head"><span class="step-id">D-4</span><span class="tag verify">VERIFY</span><h3>DNS 伝播確認</h3></div>
+    <pre><code>dig ${DOMAIN} +short
+dig www.${DOMAIN} +short
+dig @1.1.1.1 ${DOMAIN} +short</code></pre>
+    <p>期待: <code>cname.vercel-dns.com</code> 経由の A レコードが返ってくる。Agent が結果を要約報告します。</p>
+  </div>
+
+  <div class="step manual">
+    <div class="step-head"><span class="step-id">D-5</span><span class="tag manual">MANUAL</span><h3>Vercel 側でドメイン検証完了を確認</h3></div>
+    <ul>
+      <li><code>${DOMAIN}</code> / <code>www.${DOMAIN}</code> が <code>Valid Configuration</code> になるまで <code>Refresh</code></li>
+      <li>SSL が <code>Valid</code> になることを確認（Let's Encrypt 自動発行）</li>
+    </ul>
+  </div>
+
+  <!-- Phase E -->
+  <h2 class="section"><span class="ph">Phase E</span>切替後検証</h2>
+
+  <div class="step verify">
+    <div class="step-head"><span class="step-id">E-1</span><span class="tag verify">VERIFY</span><h3>HTTPS / リダイレクト / ヘッダ確認</h3></div>
+    <pre><code>curl -I https://${DOMAIN}
+curl -I https://www.${DOMAIN}
+curl -I http://${DOMAIN}</code></pre>
+  </div>
+
+  <div class="step verify">
+    <div class="step-head"><span class="step-id">E-2</span><span class="tag verify">VERIFY</span><h3>SSL 証明書確認</h3></div>
+    <pre><code>echo | openssl s_client -connect ${DOMAIN}:443 -servername ${DOMAIN} 2>/dev/null \
+  | openssl x509 -noout -issuer -subject -dates</code></pre>
+    <p>Issuer = <code>Let's Encrypt</code>、有効期限 約 90 日後 を確認。</p>
+  </div>
+
+  <div class="step manual">
+    <div class="step-head"><span class="step-id">E-3</span><span class="tag manual">MANUAL</span><h3>外部スキャン</h3></div>
+    <ul>
+      <li><a href="https://securityheaders.com" target="_blank" rel="noopener">securityheaders.com</a> で <strong>A 以上</strong></li>
+      <li><a href="https://www.ssllabs.com/ssltest/" target="_blank" rel="noopener">SSL Labs</a> で <strong>A 以上</strong></li>
+    </ul>
+  </div>
+
+  <div class="step manual">
+    <div class="step-head"><span class="step-id">E-4</span><span class="tag manual">MANUAL</span><h3>主要ページ目視確認</h3></div>
+    <ul>
+      <li>トップページが正常表示</li>
+      <li><code>/_next/image</code> 経由の画像最適化が動く</li>
+      <li>クライアントナビゲーションが動く</li>
+      <li>PR 作成で Preview URL が自動コメントされる</li>
+    </ul>
+  </div>
+
+  <div class="step manual">
+    <div class="step-head"><span class="step-id">E-5</span><span class="tag manual">MANUAL</span><h3>GitHub ブランチ保護設定</h3></div>
+    <p>GitHub → Settings → Branches → Add rule:</p>
+    <ul>
+      <li>Pattern: <code>main</code></li>
+      <li>Require a PR before merging</li>
+      <li>Require status checks → <strong>Vercel を追加</strong></li>
+      <li>Require branches to be up to date</li>
+    </ul>
+  </div>
+
+  <div class="step manual">
+    <div class="step-head"><span class="step-id">E-6</span><span class="tag manual">MANUAL</span><h3>Cloudflare DNSSEC 有効化</h3></div>
+    <p>Cloudflare → DNS → Settings → <strong>Enable DNSSEC</strong>。表示された DS レコードを<strong>レジストラ側</strong>に登録します（レジストラ画面は Agent 代行不可）。</p>
+  </div>
+
+  <!-- Phase F -->
+  <h2 class="section"><span class="ph">Phase F</span>旧環境クリーンアップ</h2>
+  <div class="info">切替成功と<strong>最低 1 週間の安定運用</strong>を確認した後に実施。</div>
+
+  <div class="step confirm">
+    <div class="step-head"><span class="step-id">F-1</span><span class="tag confirm">AGENT:確認後</span><h3><code>docker-compose.yml</code> / <code>Dockerfile</code> の扱い</h3></div>
+    <p>「残す / アーカイブ / 削除」の 3 択を提示します。ローカル開発で Docker を使い続けるなら残し、それ以外は削除推奨。</p>
+  </div>
+
+  <div class="step confirm">
+    <div class="step-head"><span class="step-id">F-2</span><span class="tag confirm">AGENT:確認後</span><h3>README 更新</h3></div>
+    <p>ローカル起動方法を <code>npm run dev</code> ベースに更新、デプロイフローと本番 URL を追記します。</p>
+  </div>
+
+  <div class="step manual">
+    <div class="step-head"><span class="step-id">F-3</span><span class="tag manual">MANUAL</span><h3>旧サーバの停止（あれば）</h3></div>
+    <p>旧ホスティングがある場合の停止操作はサービスごとに UI が異なるため人間が実施します。</p>
+  </div>
+
+  <div class="step confirm">
+    <div class="step-head"><span class="step-id">F-4</span><span class="tag confirm">AGENT:確認後</span><h3>Cloudflare TTL を Auto に戻す</h3></div>
+  </div>
+
+  <!-- Optional automation -->
+  <h2 class="section">拡張: 完全自動化モード（オプション）</h2>
+  <div class="info">
+    以下のトークンをユーザーが提供した場合、Agent は <span class="tag manual">MANUAL</span> ステップの一部を CLI で代行できます。<strong>Agent から能動的にトークン要求はしません。</strong>
+  </div>
+  <table>
+    <thead><tr><th>トークン</th><th>代行可能になる手順</th><th>主なコマンド</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>VERCEL_TOKEN</code></td>
+        <td>C-3 一部 / C-4 / C-5 / D-5</td>
+        <td><code>vercel link</code>, <code>vercel env add</code>, <code>vercel domains add</code></td>
+      </tr>
+      <tr>
+        <td>Cloudflare API Token (Zone:DNS:Edit)</td>
+        <td>D-2 / D-3 / D-4 の自動化</td>
+        <td>Cloudflare REST API への <code>curl</code></td>
+      </tr>
+      <tr>
+        <td><code>gh auth</code> 済み</td>
+        <td>B-4 / E-5</td>
+        <td><code>gh pr create</code>, <code>gh api .../branches/main/protection</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Rollback -->
+  <h2 class="section">失敗時のロールバック</h2>
+  <table>
+    <thead><tr><th style="width:30%">シナリオ</th><th>対応</th><th style="width:15%">担当</th></tr></thead>
+    <tbody>
+      <tr><td>Vercel ビルド失敗</td><td>Agent がログ取得 → 修正 PR を提案</td><td><span class="tag agent">AGENT</span></td></tr>
+      <tr><td>ドメイン検証が通らない</td><td>dig 再実行、Cloudflare のグレー雲設定を再確認</td><td><span class="tag verify">VERIFY</span> + <span class="tag manual">MANUAL</span></td></tr>
+      <tr><td>本番障害</td><td>Vercel Dashboard で前回 Deployment を <strong>Promote to Production</strong> → その後 <code>git revert</code> PR</td><td><span class="tag manual">MANUAL</span> + <span class="tag confirm">AGENT:確認後</span></td></tr>
+      <tr><td>DNS 即時切戻し</td><td>D-1 スナップショットを参照し、Cloudflare で旧レコードを復元</td><td><span class="tag manual">MANUAL</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- Checklist -->
+  <h2 class="section">移行完了チェックリスト</h2>
+  <div class="checklist">
+    <label><input type="checkbox"> <code>https://${DOMAIN}</code> / <code>https://www.${DOMAIN}</code> が 200 表示</label>
+    <label><input type="checkbox"> HTTP / 片側ドメインから Primary への 308 リダイレクトが動く</label>
+    <label><input type="checkbox"> Let's Encrypt SSL が Valid、有効期限が約 90 日後</label>
+    <label><input type="checkbox"> Cloudflare の全レコードが DNS only (グレー雲)</label>
+    <label><input type="checkbox"> DNSSEC が Active、レジストラ側に DS 登録済み</label>
+    <label><input type="checkbox"> main ブランチ保護で Vercel Checks 必須化</label>
+    <label><input type="checkbox"> PR 作成で Preview URL が自動コメント</label>
+    <label><input type="checkbox"> securityheaders.com / SSL Labs で A 以上</label>
+    <label><input type="checkbox"> README にローカル起動とデプロイフローを記載</label>
+    <label><input type="checkbox"> DNS スナップショットを <code>Docs/dns-snapshot-*.txt</code> に保存</label>
+  </div>
+
+  <footer>
+    Agent 実行用の正本仕様は <code>03_migration_spec.md</code>。本 HTML はその人間用ビジュアル版です。
+  </footer>
+
+</div>
+</body>
+</html>

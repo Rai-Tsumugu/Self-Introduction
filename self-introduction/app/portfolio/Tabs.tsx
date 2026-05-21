@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { DATA } from './data';
+import Timeline from './Timeline';
 
 type TabKey = 'profile' | 'awards' | 'works' | 'stack' | 'timeline' | 'now' | 'contact';
 
@@ -34,7 +35,7 @@ export default function Tabs() {
           </button>
         ))}
       </nav>
-      <div className="pf-panel" role="tabpanel">
+      <div className={`pf-panel${tab === 'timeline' ? ' pf-panel-full' : ''}`} role="tabpanel">
         {tab === 'profile'  && <ProfilePanel />}
         {tab === 'awards'   && <AwardsPanel />}
         {tab === 'works'    && <WorksPanel />}
@@ -251,18 +252,15 @@ function StackPanel() {
 function TimelinePanel() {
   return (
     <>
-      <div className="pf-eyebrow">05 — Timeline</div>
-      <h1 className="pf-h1">A short <em>log</em>.</h1>
-      <p className="pf-lede serif">記録好きゆえ、自分の活動年表も残しておきます。</p>
-      <div className="tl" style={{ marginTop: 40 }}>
-        {DATA.timeline.map((e, i) => (
-          <div key={i} className={`tl-event${e.major ? ' major' : ''}`}>
-            <div className="tl-date">{e.date}</div>
-            <div className="tl-title">{e.title}</div>
-            {e.desc && <div className="tl-desc">{e.desc}</div>}
-          </div>
-        ))}
+      <div className="tl-intro">
+        <div className="pf-eyebrow">05 — Timeline</div>
+        <h1 className="pf-h1">A short <em>log</em>.</h1>
+        <p className="pf-lede serif">
+          ピンポイントの日付と、並列して進む活動期間を同時に表示。
+          ストライプにマウスを乗せると詳細が浮かびます。1ヶ月 = 80px、上が最新。
+        </p>
       </div>
+      <Timeline />
     </>
   );
 }

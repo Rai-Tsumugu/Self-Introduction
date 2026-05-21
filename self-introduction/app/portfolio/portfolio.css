@@ -116,6 +116,13 @@ body { min-height: 100vh; }
   max-width: 880px;
   flex: 1;
 }
+.pf-panel.pf-panel-full {
+  max-width: none;
+}
+.pf-panel.pf-panel-full .tl-intro {
+  max-width: 720px;
+  margin-bottom: 40px;
+}
 
 /* ID card */
 .idc-photo {
