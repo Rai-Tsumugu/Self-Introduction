@@ -262,10 +262,13 @@
   <div class="step agent">
     <div class="step-head"><span class="step-id">A-1</span><span class="tag agent">AGENT</span><h3>現状の構成確認</h3></div>
     <p>Agent が以下のコマンドを並列実行し、リポジトリ状態・モノレポ構造・現行 <code>docker-compose.yml</code> の中身・<code>.env</code> 系ファイルの有無を 1 メッセージで要約報告します。</p>
-    <pre><code>git status / git branch / git remote -v
+    <pre><code>git status / git branch / git branch -r / git remote -v
 ls self-introduction/
 cat self-introduction/package.json
 cat docker-compose.yml</code></pre>
+    <div class="warn">
+      <strong>📌 ハマりやすい点:</strong> リモートに <code>main</code> ブランチが push されていないケース (<code>git branch -r</code> に <code>origin/main</code> が出ない) がある。この状態だと <code>gh pr create --base main</code> が <code>Base ref must be a branch</code> で失敗する。<strong>先に <code>git push origin main</code></strong> を実施すること。
+    </div>
   </div>
 
   <div class="step confirm">
