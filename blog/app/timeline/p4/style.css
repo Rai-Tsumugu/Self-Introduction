@@ -1,0 +1,215 @@
+/* P4 — Calendar Tape */
+
+.p4-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 56px 40px 120px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.p4-header {
+  margin-bottom: 40px;
+}
+
+.p4-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: 110px auto 1fr;
+  gap: 0;
+  align-items: start;
+  border-top: 1px solid var(--line-2);
+  border-bottom: 1px solid var(--line-2);
+}
+
+/* LEFT: month tape */
+.p4-tape {
+  position: relative;
+  border-right: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.p4-cell {
+  position: relative;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.p4-cell:last-child { border-bottom: none; }
+.p4-cell-yr {
+  border-bottom-color: var(--line-2);
+  border-bottom-width: 1px;
+  background:
+    linear-gradient(to bottom, var(--accent-bg) 0%, transparent 40%),
+    var(--bg-2);
+}
+.p4-cell-month {
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: 0.06em;
+}
+.p4-cell-year {
+  font-size: 22px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+  margin-top: 6px;
+  line-height: 1;
+}
+
+/* MIDDLE: span stripes column */
+.p4-stripes {
+  position: relative;
+  margin: 0 16px;
+  min-width: 32px;
+}
+.p4-stripe {
+  position: absolute;
+  width: 14px;
+  border-radius: 7px;
+  opacity: 0.85;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.p4-stripe::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 7px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+html[data-theme="dark"] .p4-stripe::after {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.p4-stripe-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  transform-origin: center;
+  white-space: nowrap;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* RIGHT: point events */
+.p4-events {
+  position: relative;
+  padding-left: 20px;
+}
+.p4-point-row {
+  position: absolute;
+  left: 20px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.p4-dot {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-left: -26px;
+  box-shadow: 0 0 0 4px var(--bg);
+}
+.p4-card {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+.p4-card:hover {
+  border-color: var(--line-2);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+.p4-card-date {
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.p4-card-title {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 2px 0 4px;
+}
+.p4-card-summary {
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.55;
+}
+.p4-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.p4-card-tag {
+  font-size: 10px;
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  color: var(--ink-3);
+}
+
+/* legend */
+.p4-legend {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.p4-legend-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--ink-3);
+  margin-bottom: 12px;
+}
+.p4-legend-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 24px;
+}
+.p4-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.p4-legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  flex: none;
+}
+.p4-legend-name {
+  font-family: var(--font-serif);
+  font-weight: 500;
+}
+.p4-legend-range {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-left: auto;
+}
+
+@media (max-width: 760px) {
+  .p4-shell { padding: 32px 16px 80px; }
+  .p4-board { grid-template-columns: 80px auto 1fr; }
+  .p4-legend-list { grid-template-columns: 1fr; }
+  .p4-card-title { font-size: 15px; }
+}

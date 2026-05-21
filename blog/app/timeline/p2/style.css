@@ -1,0 +1,223 @@
+/* Timeline P2 — Category Swim Lanes */
+
+.p2-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 56px 40px 120px;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+.p2-head {
+  margin-bottom: 48px;
+  max-width: 720px;
+}
+
+.p2-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 0;
+}
+
+/* gutter (left) */
+.p2-gutter {
+  position: relative;
+  border-right: 1px solid var(--line);
+}
+.p2-tick {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 12px;
+  transform: translateY(-1px);
+}
+.p2-tick-label {
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: 0.08em;
+}
+.p2-tick.is-year .p2-tick-label {
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 11px;
+}
+
+/* horizontal year guides — overlay across full lane area */
+.p2-guides {
+  position: absolute;
+  top: 0;
+  left: 76px;
+  right: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+.p2-guide {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1px dashed var(--line-2);
+}
+.p2-today {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1px solid var(--accent);
+  display: flex;
+  justify-content: flex-end;
+}
+.p2-today-label {
+  position: absolute;
+  right: 4px;
+  top: -16px;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  background: var(--bg);
+  padding: 0 6px;
+}
+
+/* lanes */
+.p2-lanes {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(180px, 1fr);
+  gap: 0;
+  position: relative;
+}
+.p2-lane {
+  position: relative;
+  border-right: 1px solid var(--line);
+  padding: 0;
+}
+.p2-lane:last-child {
+  border-right: none;
+}
+.p2-lane-head {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  background: var(--bg);
+  padding: 10px 14px 12px;
+  border-bottom: 1px solid var(--line);
+}
+.p2-lane-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.p2-lane-body {
+  position: relative;
+}
+
+/* spans (stripes) */
+.p2-stripe {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.p2-stripe-inner {
+  padding: 10px 12px;
+  position: sticky;
+  top: 56px;
+}
+.p2-stripe-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.p2-stripe-meta {
+  font-size: 10px;
+  color: var(--ink-2);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+.p2-stripe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}
+.p2-tag {
+  font-size: 9px;
+  padding: 2px 6px;
+  border: 1px solid var(--line-2);
+  border-radius: 20px;
+  color: var(--ink-2);
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
+}
+
+/* point events */
+.p2-point {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  transform: translateY(-6px);
+  z-index: 3;
+}
+.p2-dot {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 2px solid var(--bg);
+  margin-top: 4px;
+  box-shadow: 0 0 0 1px var(--line-2);
+}
+.p2-dot.is-now {
+  background: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 0 5px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+.p2-point-body {
+  flex: 1;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 10px 8px;
+  box-shadow: var(--shadow-sm);
+}
+.p2-point-date {
+  font-size: 9px;
+  color: var(--ink-3);
+  letter-spacing: 0.08em;
+}
+.p2-point-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-top: 2px;
+  letter-spacing: -0.005em;
+}
+.p2-point-summary {
+  font-size: 11px;
+  color: var(--ink-2);
+  margin-top: 4px;
+  line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+  .p2-wrap { padding: 32px 16px 80px; }
+  .p2-lanes { grid-auto-columns: minmax(140px, 1fr); }
+  .p2-stripe { left: 6px; right: 6px; }
+  .p2-point { left: 2px; right: 2px; }
+}

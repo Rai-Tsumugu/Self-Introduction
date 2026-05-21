@@ -1,0 +1,221 @@
+/* Timeline P5 — Spine + Floating Capsule Cards */
+
+.p5-main {
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 56px 48px 120px;
+  font-family: var(--font-sans);
+}
+
+.p5-header {
+  max-width: 720px;
+  margin-bottom: 48px;
+}
+
+.p5-stage {
+  position: relative;
+  margin-top: 24px;
+}
+
+/* Month gridlines */
+.p5-monthrow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  border-top: 1px dashed transparent;
+  pointer-events: none;
+}
+.p5-monthrow::after {
+  content: "";
+  position: absolute;
+  left: 80px;
+  right: 16px;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--line) 12%,
+    var(--line) 88%,
+    transparent
+  );
+  opacity: 0.5;
+}
+.p5-monthlabel {
+  position: absolute;
+  left: 0;
+  top: -7px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--ink-3);
+  width: 70px;
+  text-align: right;
+}
+
+/* Spine */
+.p5-spine {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  background: var(--line-2);
+}
+
+/* Point events */
+.p5-point {
+  position: absolute;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transform: translate(-50%, -6px);
+}
+.p5-point .p5-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--bg), 0 0 0 5px var(--accent-2);
+  flex-shrink: 0;
+  margin-top: 6px;
+  z-index: 2;
+}
+
+.p5-point-left {
+  flex-direction: row-reverse;
+}
+.p5-point-left .p5-point-content {
+  text-align: right;
+  margin-right: 8px;
+  margin-left: 0;
+  align-items: flex-end;
+  width: 170px;
+}
+.p5-point-right .p5-point-content {
+  margin-left: 8px;
+  width: 170px;
+}
+
+.p5-point-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.p5-point-date {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.p5-point-title {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.p5-point-summary {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+.p5-point-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 6px;
+}
+.p5-point-left .p5-point-tags {
+  justify-content: flex-end;
+}
+
+/* Tags */
+.p5-tag {
+  font-size: 9px;
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  color: var(--ink-3);
+  background: var(--bg);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Capsule cards */
+.p5-capsule {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+}
+.p5-capsule:hover {
+  border-color: var(--line-2);
+  box-shadow: var(--shadow-md);
+  transform: translateX(-1px);
+}
+
+.p5-capsule-edge {
+  position: absolute;
+  left: 0;
+  top: 12%;
+  bottom: 12%;
+  width: 3px;
+  border-radius: 2px;
+}
+
+.p5-capsule-inner {
+  padding: 22px 22px 18px 22px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.p5-capsule-cat {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.p5-capsule-title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+}
+.p5-capsule-range {
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+.p5-capsule-summary {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.55;
+  margin: 6px 0 0;
+  flex-shrink: 1;
+  overflow: hidden;
+}
+.p5-capsule-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+@media (max-width: 960px) {
+  .p5-main {
+    padding: 32px 16px 80px;
+  }
+  .p5-header {
+    margin-bottom: 24px;
+  }
+}
