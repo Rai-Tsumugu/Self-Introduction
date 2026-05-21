@@ -1,10 +1,10 @@
 services:
-  blog:
+  self-introduction:
     build:
-      context: ./blog
+      context: ./self-introduction
       dockerfile: Dockerfile
-    image: self-introduction/blog:latest
-    container_name: self-introduction-blog
+    image: self-introduction/app:latest
+    container_name: self-introduction
     ports:
       - "3000:3000"
     environment:

@@ -6,7 +6,7 @@
 
 ```
 Self-Introduction/
-├── blog/              # Next.js アプリ
+├── self-introduction/  # Next.js アプリ
 ├── docker-compose.yml
 └── README.md
 ```
@@ -14,7 +14,7 @@ Self-Introduction/
 ## ローカル開発
 
 ```bash
-cd blog && npm install && npm run dev
+cd self-introduction && npm install && npm run dev
 ```
 
 ## Docker で起動
@@ -35,12 +35,12 @@ docker compose down
 
 ```bash
 # 1. Artifact Registry にイメージを push
-gcloud builds submit ./blog \
-  --tag asia-northeast1-docker.pkg.dev/<PROJECT_ID>/self-introduction/blog:latest
+gcloud builds submit ./self-introduction \
+  --tag asia-northeast1-docker.pkg.dev/<PROJECT_ID>/self-introduction/app:latest
 
 # 2. Cloud Run にデプロイ
-gcloud run deploy blog \
-  --image asia-northeast1-docker.pkg.dev/<PROJECT_ID>/self-introduction/blog:latest \
+gcloud run deploy self-introduction \
+  --image asia-northeast1-docker.pkg.dev/<PROJECT_ID>/self-introduction/app:latest \
   --region asia-northeast1 \
   --platform managed \
   --allow-unauthenticated \
