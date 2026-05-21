@@ -139,26 +139,6 @@ export const DATA = {
     },
   ],
 
-  timeline: [
-    { date: "2026.03.10", title: "Hokkaido アプリコンテスト2026 受賞", desc: "HICTA(北海道IT推進協会)賞 / メディアマジック賞", major: true },
-    { date: "2026.02.25", title: "LLP 全国大会 出場", desc: "Lean Launchpad Hokkaido 最優秀賞を経て全国最終発表に出場。", major: true },
-    { date: "2026.02.12", title: "NTTdocomo 見学", desc: "NTTドコモ北海道支社への企業見学に参加。", major: false },
-    { date: "2026.02.03", title: "SAPPORO データアイデアソン 参加", desc: "Day1・Day2の2日間にわたるデータ活用アイデアソンに出場。", major: false },
-    { date: "2026.03.03", title: "大学間越境学習プログラム 横浜訪問", desc: "複数大学間の越境学習プログラムで横浜へ。Day1〜Day4（2025年12月〜2026年2月）の合宿型プログラム。", major: false },
-    { date: "2026.01.24", title: "VKet Real in Sapporo 参加", desc: "リアル開催のVketイベントに参加。（2回目）", major: false },
-    { date: "2025.11.29", title: "起業家甲子園 2025 受賞", desc: "北海道総合通信局長賞 / NTTドコモ北海道支社賞", major: true },
-    { date: "2025.10.19", title: "JPHACKS 2025 受賞",       desc: "札幌会場ブロックスポンサー賞 ディップ株式会社 賞", major: true },
-    { date: "2025.10.11", title: "No maps函館 参加", desc: "北海道発のクリエイティブ系カンファレンスに参加。", major: false },
-    { date: "2025.09.14", title: "Deep Tech CORE XR Ideathon 優秀賞", desc: "", major: false },
-    { date: "2025.09.12", title: "Lean Launchpad Hokkaido 最優秀賞",  desc: "", major: true },
-    { date: "2025.07.21", title: "Vket Real in Sapporo 参加", desc: "リアル開催のVketイベントに参加。", major: false },
-    { date: "2025.07.19", title: "全日本AIハッカソン 北海道大会 参加", desc: "ビギナー部門に出場。", major: false },
-    { date: "2025.06.07", title: "北大祭VR体験会", desc: "北海道大学祭にてVR体験会を実施。", major: false },
-    { date: "2025.04",    title: "大学入学", desc: "C言語を起点に低レイヤの学習を開始。", major: false },
-    { date: "2023.—",     title: "日常生活の記録ツールを制作開始", desc: "高校時代。今に至るまで3年分のログを蓄積中。", major: false },
-    { date: "2022.—",     title: "JavaScriptに触れる", desc: "高校生の頃からWeb制作を開始。", major: false },
-  ],
-
   pcs: [
     {
       kind: "Laptop",

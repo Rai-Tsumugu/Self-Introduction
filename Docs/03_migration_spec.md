@@ -52,6 +52,7 @@
 ```bash
 git status
 git branch --show-current
+git branch -r                                # リモートブランチ一覧 ← main の有無を必ず確認
 git remote -v
 ls self-introduction/
 cat self-introduction/package.json | head -40
@@ -60,6 +61,9 @@ test -f self-introduction/.env && echo "env exists" || echo "no env"
 test -f self-introduction/.env.local && echo "env.local exists" || echo "none"
 test -f self-introduction/vercel.json && echo "vercel.json exists" || echo "none"
 ```
+
+> **📌 ハマりやすい点 (2026-05-21 初回実行時に検知)**:
+> ローカルに `main` ブランチが存在しても、**リモートに push されていない**ケースがある（`git branch -r` に `origin/main` が出ない）。この状態で `gh pr create --base main` を実行すると `Base ref must be a branch` で失敗するため、**先に `git push origin main` を実施**してから PR を作成する。Vercel の Production Branch 設定も `main` がリモートにある前提で動く。
 
 ### A-2 `[AGENT:確認後]` 移行対象ドメイン名のヒアリング
 
