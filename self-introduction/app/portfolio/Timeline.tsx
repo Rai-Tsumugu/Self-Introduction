@@ -1,7 +1,7 @@
 import rawData from "../data/timeline.json";
 
-type Point = { id: string; kind: "point"; date: string; title: string; category: string; tags: string[]; summary: string; color: string };
-type Span = { id: string; kind: "span"; start: string; end: string; title: string; category: string; tags: string[]; summary: string; color: string };
+type Point = { id: string; kind: "point"; date: string; title: string; category: string; tags: string[]; summary: string; color: string; group?: string };
+type Span = { id: string; kind: "span"; start: string; end: string; title: string; category: string; tags: string[]; summary: string; color: string; group?: string };
 type CategoryConfig = { key: string; label?: string };
 type TimelineData = {
   scale: { pxPerMonth: number };
@@ -16,26 +16,48 @@ const data = rawData as TimelineData;
 function ym(s: string) { const [y, m] = s.split("-").map(Number); return { y, m }; }
 function ymToIndex(s: string, origin: { y: number; m: number }) { const b = ym(s); return (b.y - origin.y) * 12 + (b.m - origin.m); }
 
+function nowPlusOneMonth(): string {
+  const d = new Date();
+  const t = d.getFullYear() * 12 + d.getMonth() + 1; // 現在月の次月
+  const y = Math.floor(t / 12);
+  const m = (t % 12) + 1;
+  return `${y}-${String(m).padStart(2, "0")}`;
+}
+
 function computeRange(): { start: string; end: string } {
   if (data.range?.start && data.range?.end) return { start: data.range.start, end: data.range.end };
   const all: string[] = [];
   for (const e of data.events) all.push(e.date);
   for (const s of data.spans) { all.push(s.start); all.push(s.end); }
   const sorted = [...all].sort();
-  return { start: data.range?.start ?? sorted[0], end: data.range?.end ?? sorted[sorted.length - 1] };
+  return {
+    start: data.range?.start ?? sorted[0],
+    end: data.range?.end ?? nowPlusOneMonth(),
+  };
 }
 
 function packSpans(spans: Span[], mi: (s: string) => number) {
-  const sorted = [...spans].sort((a, b) => mi(a.start) - mi(b.start) || mi(b.end) - mi(a.end));
-  const colEnds: number[] = [];
-  const assignments = new Map<string, number>();
-  for (const s of sorted) {
+  // group キーが指定されていれば同一トラック扱い。未指定なら id 単体で1グループ。
+  const groupKey = (s: Span) => s.group ?? `__${s.id}`;
+  const groupMap = new Map<string, { start: number; end: number; key: string }>();
+  for (const s of spans) {
+    const k = groupKey(s);
     const sMi = mi(s.start), eMi = mi(s.end);
-    let placed = colEnds.findIndex((e) => e < sMi);
-    if (placed === -1) { placed = colEnds.length; colEnds.push(eMi); } else { colEnds[placed] = eMi; }
-    assignments.set(s.id, placed);
+    const cur = groupMap.get(k);
+    if (!cur) groupMap.set(k, { start: sMi, end: eMi, key: k });
+    else { cur.start = Math.min(cur.start, sMi); cur.end = Math.max(cur.end, eMi); }
   }
-  return { assignments, cols: colEnds.length };
+  const sortedGroups = [...groupMap.values()].sort((a, b) => a.start - b.start || b.end - a.end);
+  const colEnds: number[] = [];
+  const groupCol = new Map<string, number>();
+  for (const g of sortedGroups) {
+    let placed = colEnds.findIndex((e) => e < g.start);
+    if (placed === -1) { placed = colEnds.length; colEnds.push(g.end); } else { colEnds[placed] = Math.max(colEnds[placed], g.end); }
+    groupCol.set(g.key, placed);
+  }
+  const assignments = new Map<string, number>();
+  for (const s of spans) assignments.set(s.id, groupCol.get(groupKey(s))!);
+  return { assignments, cols: colEnds.length, groupCol };
 }
 
 export default function Timeline() {
@@ -69,7 +91,7 @@ export default function Timeline() {
     <div className="p2a3-board">
       <div className="p2a3-gutter" style={{ height: totalH }}>
         {monthLabels.map((ml) => (
-          <div key={ml.mi} className={"p2a3-tick" + (ml.isYear ? " is-year" : "")} style={{ top: yOfMonth(ml.mi) }}>
+          <div key={ml.mi} className={"p2a3-tick" + (ml.isYear ? " is-year" : "")} style={{ top: yOfMonth(ml.mi) + pxPerMonth }}>
             <span className="mono">{ml.label}</span>
           </div>
         ))}
@@ -92,12 +114,15 @@ export default function Timeline() {
               <div className="p2a3-lane-body" style={{ height: totalH }}>
                 {laneSpans.map((s) => {
                   const sMi = monthIndex(s.start), eMi = monthIndex(s.end);
-                  const top = yOfMonth(eMi);
-                  const h = (eMi - sMi + 1) * pxPerMonth;
+                  const maxMi = months - 1;
+                  const visibleEMi = Math.min(eMi, maxMi);
+                  const ongoing = eMi > maxMi;
+                  const top = yOfMonth(visibleEMi);
+                  const h = (visibleEMi - sMi + 1) * pxPerMonth;
                   const col = pack.assignments.get(s.id) ?? 0;
                   return (
-                    <div key={s.id} className="p2a3-stripe" style={{ top, height: h, left: PAD + col * (SUB_W + SUB_GAP), width: SUB_W, background: `color-mix(in srgb, ${s.color} 30%, var(--bg))`, borderColor: `color-mix(in srgb, ${s.color} 55%, var(--line))` }}>
-                      <div className="p2a3-stripe-cap" style={{ background: `color-mix(in srgb, ${s.color} 70%, var(--ink))` }} />
+                    <div key={s.id} className={"p2a3-stripe" + (ongoing ? " is-ongoing" : "")} style={{ top, height: h, left: PAD + col * (SUB_W + SUB_GAP), width: SUB_W, background: `color-mix(in srgb, ${s.color} 30%, var(--bg))`, borderColor: `color-mix(in srgb, ${s.color} 55%, var(--line))` }}>
+                      {!ongoing && <div className="p2a3-stripe-cap" style={{ background: `color-mix(in srgb, ${s.color} 70%, var(--ink))` }} />}
                       <div className="p2a3-stripe-label serif">{s.title}</div>
                       <div className="p2a3-popover" style={{ borderLeftColor: `color-mix(in srgb, ${s.color} 65%, var(--line))` }}>
                         <div className="p2a3-pop-title serif">{s.title}</div>
@@ -111,13 +136,18 @@ export default function Timeline() {
                   );
                 })}
 
-                {lanePoints.map((e) => (
+                {lanePoints.map((e) => {
+                  const groupedCol = e.group ? pack.groupCol.get(e.group) : undefined;
+                  const left = groupedCol !== undefined
+                    ? PAD + groupedCol * (SUB_W + SUB_GAP) + SUB_W + 6
+                    : PAD + (laneSpans.length > 0 ? stripeW + 10 : 0);
+                  return (
                   <div
                     key={e.id}
-                    className="p2a3-point"
+                    className={"p2a3-point" + (groupedCol !== undefined ? " is-grouped" : "")}
                     style={{
                       top: yOfMonth(monthIndex(e.date)),
-                      left: PAD + (laneSpans.length > 0 ? stripeW + 10 : 0),
+                      left,
                       borderLeftColor: `color-mix(in srgb, ${e.color} 70%, var(--ink))`,
                     }}
                   >
@@ -133,7 +163,8 @@ export default function Timeline() {
                       <div className="p2a3-pop-summary">{e.summary}</div>
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           );
