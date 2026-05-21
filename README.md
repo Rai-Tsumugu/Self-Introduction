@@ -1,48 +1,37 @@
 # Self-Introduction
 
-自己紹介サイト。Next.js アプリを Docker でコンテナ化し、Google Cloud (Cloud Run) へのデプロイを想定した構成。
+自己紹介サイト。Next.js アプリを Vercel でホスティング。
 
 ## 構成
 
 ```
 Self-Introduction/
 ├── self-introduction/  # Next.js アプリ
-├── docker-compose.yml
+├── Docs/               # 設計・移行ドキュメント
 └── README.md
 ```
+
+採用構成: **Vercel(ホスティング) + Cloudflare(DNS only) + GitHub(ソース管理 / CI 連動)**
 
 ## ローカル開発
 
 ```bash
-cd self-introduction && npm install && npm run dev
-```
-
-## Docker で起動
-
-```bash
-docker compose up --build
+cd self-introduction
+npm install
+npm run dev
 ```
 
 http://localhost:3000
 
-停止:
+## Vercel デプロイ
 
-```bash
-docker compose down
-```
+GitHub と連携済みであれば、`main` への push で自動的に本番デプロイされる。
 
-## Cloud Run へのデプロイ
+初回セットアップ:
 
-```bash
-# 1. Artifact Registry にイメージを push
-gcloud builds submit ./self-introduction \
-  --tag asia-northeast1-docker.pkg.dev/<PROJECT_ID>/self-introduction/app:latest
+1. [Vercel](https://vercel.com/) で GitHub リポジトリをインポート
+2. Root Directory に `self-introduction` を指定
+3. Framework Preset = Next.js(自動検出)
+4. デプロイ
 
-# 2. Cloud Run にデプロイ
-gcloud run deploy self-introduction \
-  --image asia-northeast1-docker.pkg.dev/<PROJECT_ID>/self-introduction/app:latest \
-  --region asia-northeast1 \
-  --platform managed \
-  --allow-unauthenticated \
-  --port 3000
-```
+詳細手順は `Docs/02_deployment_process.md` を参照。
