@@ -1,5 +1,4 @@
-import "../timeline/p2a3/style.css";
-import rawData from "../timeline/data.json";
+import rawData from "../data/timeline.json";
 
 type Point = { id: string; kind: "point"; date: string; title: string; category: string; tags: string[]; summary: string; color: string };
 type Span = { id: string; kind: "span"; start: string; end: string; title: string; category: string; tags: string[]; summary: string; color: string };
@@ -113,8 +112,21 @@ export default function Timeline() {
                 })}
 
                 {lanePoints.map((e) => (
-                  <div key={e.id} className="p2a3-point" style={{ top: yOfMonth(monthIndex(e.date)), left: PAD + stripeW / 2 - 5 }}>
-                    <span className="p2a3-dot" style={{ background: `color-mix(in srgb, ${e.color} 70%, var(--ink))` }} />
+                  <div
+                    key={e.id}
+                    className="p2a3-point"
+                    style={{
+                      top: yOfMonth(monthIndex(e.date)),
+                      left: PAD + (laneSpans.length > 0 ? stripeW + 10 : 0),
+                      borderLeftColor: `color-mix(in srgb, ${e.color} 70%, var(--ink))`,
+                    }}
+                  >
+                    <span
+                      className="p2a3-point-bar"
+                      style={{ background: `color-mix(in srgb, ${e.color} 70%, var(--ink))` }}
+                    />
+                    <div className="p2a3-point-title serif">{e.title}</div>
+                    <div className="p2a3-point-date mono">{e.date}</div>
                     <div className="p2a3-point-pop">
                       <div className="p2a3-pop-title serif">{e.title}</div>
                       <div className="p2a3-pop-meta mono">{e.date}</div>
