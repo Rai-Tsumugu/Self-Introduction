@@ -1,0 +1,12 @@
+{
+  "name": "Rai Tsumugu",
+  "nameJp": "らっく",
+  "kana": "らっく",
+  "tagline": "学生デベロッパー。VRと記録の境目で\nプロトタイプを作っています。",
+  "titles": ["Student (大学1年)", "Web / VR prototyper", "Hackathon participant"],
+  "handles": [
+    { "svc": "alias",  "val": "らっく",       "url": null, "primary": true },
+    { "svc": "name",   "val": "Rai Tsumugu",  "url": null },
+    { "svc": "github", "val": "Rai-Tsumugu",  "url": "https://github.com/Rai-Tsumugu" }
+  ]
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "status": "building",
+    "title": "Process Note を推進中",
+    "body": "起業家甲子園で受賞した内容をもとに、制作過程の自動記録・言語化ツールを継続開発。"
+  },
+  {
+    "status": "learning",
+    "title": "Claude Code / Codex によるプログラミング",
+    "body": "Claude Code や Codex を活用したAIコーディングを実践し、プロトタイプ開発のサイクルを高速化中。"
+  },
+  {
+    "status": "exploring",
+    "title": "VRでの立体的な音楽表現",
+    "body": "音→映像、3Dオーディオやシェーダーを組み合わせた空間体験に興味あり。"
+  }
+]

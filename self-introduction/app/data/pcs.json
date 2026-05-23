@@ -1,0 +1,35 @@
+[
+  {
+    "kind": "Laptop",
+    "specs": [
+      ["OS",  "Windows 11 Home"],
+      ["CPU", "Intel Core i5-1335U"],
+      ["GPU", "Intel Iris Xe"],
+      ["RAM", "32 GB"],
+      ["SSD", "NVMe 1 TB"]
+    ],
+    "note": "元々、大学用に購入したが、今ではMacBook Airメインになっている。"
+  },
+  {
+    "kind": "Desktop",
+    "specs": [
+      ["OS",  "Windows 11 Pro"],
+      ["CPU", "Intel Core i7-12700"],
+      ["GPU", "NVIDIA RTX 3050"],
+      ["RAM", "32 GB"],
+      ["SSD", "NVMe 1 TB × 2"]
+    ],
+    "note": "そろそろGPUをアップグレードして、VR開発とローカルAIモデルの実行環境を強化したい。"
+  },
+  {
+    "kind": "MacBook Air",
+    "specs": [
+      ["OS",  "macOS"],
+      ["CPU", "Apple M4"],
+      ["GPU", "Apple M4 (内蔵GPU)"],
+      ["RAM", "16 GB"],
+      ["SSD", "256 GB"]
+    ],
+    "note": "持ち運び用。大学の授業や外出先でのプログラミングに使用。"
+  }
+]
