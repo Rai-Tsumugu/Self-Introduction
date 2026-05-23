@@ -1,0 +1,46 @@
+[
+  {
+    "repo": "Rai-Tsumugu/process-note",
+    "name": "Process Note",
+    "desc": "デザイン制作過程を自動記録・言語化するツール。Lean Launchpad 最優秀賞 / 起業家甲子園 受賞作。",
+    "tags": ["React", "TypeScript", "受賞作"],
+    "live": null,
+    "featured": true
+  },
+  {
+    "repo": "jphacks/sp_2501",
+    "name": "Process Log",
+    "desc": "JPHACKS 2025 出展作。画面キャプチャから制作過程を記録する。札幌会場ブロックスポンサー賞 ディップ株式会社 賞 受賞。",
+    "tags": ["JPHACKS", "TypeScript", "受賞作"],
+    "live": null,
+    "featured": true
+  },
+  {
+    "repo": "Rai-Tsumugu/self-introduce",
+    "name": "このポートフォリオ",
+    "desc": "大学で友人が始めたWebホスティング上で公開している個人サイト。",
+    "tags": ["React", "自作"],
+    "live": "https://rakuto-yamazaki.com/"
+  },
+  {
+    "repo": "Rai-Tsumugu/daily-log",
+    "name": "日常生活の記録ツール",
+    "desc": "行動・開始時刻・詳細を記録するWebアプリ。高校以来3年分のログを蓄積している私のオリジン的作品。",
+    "tags": ["Web", "個人ツール", "3年運用"],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/vrc-signboard",
+    "name": "VRChat 案内表示板",
+    "desc": "指定経路に沿って案内矢印が動くVRChat用ワールドアセット。Codex補助でロジック実装。",
+    "tags": ["Unity", "C#", "VRChat"],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/password-strength",
+    "name": "パスワード強度計測 (CUDA)",
+    "desc": "総当たり攻撃を想定した強度計測プログラム。文字種や長さに応じた解答時間を算出。",
+    "tags": ["C", "CUDA", "学習"],
+    "live": null
+  }
+]

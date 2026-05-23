@@ -1,0 +1,42 @@
+[
+  {
+    "date": "2026.3.10", "dateShort": "2026 / 3",
+    "title": "Hokkaido アプリコンテスト2026",
+    "meta": "HICTA(北海道IT推進協会)賞 / メディアマジック賞",
+    "project": "QuestLogic",
+    "summary": "子供が学習を丁寧に行なった度合いを可視化して、丁寧に行うほど報酬としてのゲーム時間が増える家庭内学習・ゲーム管理ツール",
+    "major": true
+  },
+  {
+    "date": "2025.11.29", "dateShort": "2025 / 11",
+    "title": "北海道 起業家甲子園 2025",
+    "meta": "北海道総合通信局長賞 / NTTドコモ北海道支社賞",
+    "project": "Process Note",
+    "summary": "ProcessNoteを推進した内容を発表。",
+    "major": true
+  },
+  {
+    "date": "2025.10.19", "dateShort": "2025 / 10",
+    "title": "JPHACKS 2025",
+    "meta": "札幌会場ブロックスポンサー賞 ディップ株式会社 賞",
+    "project": "Process Log",
+    "summary": "クリエイティブ × Tech をテーマに、ProcessNoteのアイデアの一部を形にし、画面からの記録作成を実装。",
+    "major": true
+  },
+  {
+    "date": "2025.09.14", "dateShort": "2025 / 09",
+    "title": "Deep Tech CORE XR Ideathon 2025",
+    "meta": "優秀賞 / Excellence Award",
+    "project": "モノ探し (チーム: メガネ)",
+    "summary": "空港や買い物の待ち時間で、3面モニターを用いた入り込めるモノ探し体験を提供するプロトタイプを提案。",
+    "major": false
+  },
+  {
+    "date": "2025.09.12", "dateShort": "2025 / 09",
+    "title": "Lean Launchpad Hokkaido 2025",
+    "meta": "最優秀賞 / Best Award",
+    "project": "ProcessNote",
+    "summary": "デザインの制作過程を自動記録・言語化し、プロセスの価値を活用するツールを提案。",
+    "major": true
+  }
+]
