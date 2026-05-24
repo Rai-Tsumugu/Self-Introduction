@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  毎週 月・水・金 13:30 に AUTO-UPDATE/scripts/run-and-push.sh を起動する launchd 設定。
+  インストール手順は AUTO-UPDATE/README.md の「ローカル定期実行」セクション参照。
+
+  注意:
+  - ProgramArguments 内のパスは絶対パス。ユーザー名が変わる場合は書き換える。
+  - StartCalendarInterval の Weekday は 0=日曜, 1=月曜 ... 5=金曜, 6=土曜。
+  - 複数日時を指定する場合は <array> の中に <dict> を並べる。
+  - スリープ中はスキップされる。
+  - RunAtLoad=true により Mac 起動時にも一度走る（見逃し補填）。
+    スクリプト側の冪等ガード (AUTO_UPDATE_MIN_INTERVAL_HOURS, 既定20h) で
+    短時間に複数回走るのを防ぐ。
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rakuto.self-introduction.auto-update</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/rakutoyamazaki/workspace/Self-Introduction/AUTO-UPDATE/scripts/run-and-push.sh</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/rakutoyamazaki/workspace/Self-Introduction</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Users/rakutoyamazaki/.nvm/versions/node/v24.13.1/bin:/usr/local/bin:/usr/bin:/bin</string>
+        <key>HOME</key>
+        <string>/Users/rakutoyamazaki</string>
+        <key>AUTO_UPDATE_NODE_BIN</key>
+        <string>/Users/rakutoyamazaki/.nvm/versions/node/v24.13.1/bin/node</string>
+    </dict>
+
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict>
+            <key>Weekday</key><integer>1</integer>
+            <key>Hour</key><integer>13</integer>
+            <key>Minute</key><integer>30</integer>
+        </dict>
+        <dict>
+            <key>Weekday</key><integer>3</integer>
+            <key>Hour</key><integer>13</integer>
+            <key>Minute</key><integer>30</integer>
+        </dict>
+        <dict>
+            <key>Weekday</key><integer>5</integer>
+            <key>Hour</key><integer>13</integer>
+            <key>Minute</key><integer>30</integer>
+        </dict>
+    </array>
+
+    <key>StandardOutPath</key>
+    <string>/Users/rakutoyamazaki/workspace/Self-Introduction/AUTO-UPDATE/logs/launchd.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/rakutoyamazaki/workspace/Self-Introduction/AUTO-UPDATE/logs/launchd.err.log</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+</dict>
+</plist>
