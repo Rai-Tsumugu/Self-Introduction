@@ -1,9 +1,211 @@
 [
   {
+    "repo": "Rai-Tsumugu/Self-Introduction",
+    "name": "SelfIntro",
+    "desc": "Next.jsとVercelで公開する自己紹介サイトの構築・運用をまとめた個人ポートフォリオ",
+    "tags": [
+      "Next.js",
+      "TypeScript",
+      "個人開発"
+    ],
+    "live": "https://self-introduction-nine-psi.vercel.app"
+  },
+  {
+    "repo": "Rai-Tsumugu/English-Learning",
+    "name": "English Learning",
+    "desc": "個人学習向けの英語学習サイト。単語や表現の確認、学習習慣の定着を支えるローカル環境の個人用Webアプリ",
+    "tags": [
+      "個人開発",
+      "英語学習",
+      "Webアプリ"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/VCC-ErrorFix",
+    "name": "VCC ErrorFix",
+    "desc": "Unityコンソールのエラーや警告をClaude AIへ中継し、MCP経由でスクリプト修正を支援するUnity Editorプラグイン",
+    "tags": [
+      "C#",
+      "Unity",
+      "個人開発"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/JPGtoPNG",
+    "name": "JPGtoPNG",
+    "desc": "JPEGの圧縮ノイズと中間色を除去し、色を揃えたJPG・SVG・PNGへ変換する色忠実パイプライン",
+    "tags": [
+      "Python",
+      "画像変換",
+      "個人開発"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/picture-format",
+    "name": "Image Formatter",
+    "desc": "画像を撮影日時で一括リネームし、HEIC/HEIFをPNGへ変換するWindows向けGUIツール",
+    "tags": [
+      "Python",
+      "Windows GUI",
+      "個人開発"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/Expo-demo",
+    "name": "Expo-demo",
+    "desc": "Qiita記事をもとにExpo Bare workflowで最小構成のReact Native開発環境を整え、iOS・AndroidをCLI中心に起動できるサンプル",
+    "tags": [
+      "Expo",
+      "React Native",
+      "個人開発"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/mp4-to-text",
+    "name": "MP4→MP3変換器",
+    "desc": "MP4をドラッグ＆ドロップで一括MP3化し、長時間録画にも対応するPython製GUI変換ツール",
+    "tags": [
+      "Python",
+      "GUI",
+      "個人開発"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/mp4-comp",
+    "name": "mp4-comp",
+    "desc": "目標サイズや画質を指定してMP4を圧縮し、進捗表示や予約実行にも対応するGUI・CLI両対応の動画圧縮ツール",
+    "tags": [
+      "Python",
+      "FFmpeg",
+      "個人開発"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/QuestLogic",
+    "name": "QuestLogic",
+    "desc": "TypeScriptで実装した、クエスト進行や条件分岐のロジック設計を整理するための学習用プロジェクト",
+    "tags": [
+      "TypeScript",
+      "個人開発",
+      "学習用"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/HitAndBlow",
+    "name": "HitAndBlow",
+    "desc": "Pythonで実装したヒット＆ブローの対戦用ロジックとゲーム進行を扱う、シンプルな数字当てゲーム開発のためのリポジトリ",
+    "tags": [
+      "Python",
+      "個人開発",
+      "ゲーム"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/Discord-AI-Chat",
+    "name": "Discord AI Chat",
+    "desc": "Discord上でテキストや画像付きメッセージにAIが応答する最小構成のチャットボット基盤。小規模で拡張しやすい設計",
+    "tags": [
+      "Python",
+      "Discord.py",
+      "個人開発"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/Ebi-Yobi",
+    "name": "Ebi Yobi",
+    "desc": "海老の呼び出し状況を素早く確認し、予約や在庫の管理をしやすくするためのWebアプリケーション",
+    "tags": [
+      "TypeScript",
+      "Webアプリ",
+      "個人開発"
+    ],
+    "live": "https://ebi-yobi.vercel.app"
+  },
+  {
+    "repo": "Rai-Tsumugu/Ebi-Yobi-archive",
+    "name": "EbiYobi Archive",
+    "desc": "Next.jsとPrisma、PostgreSQLで構築した通話記録アーカイブ用Webアプリの開発基盤、Docker運用対応",
+    "tags": [
+      "Next.js",
+      "Prisma",
+      "個人開発"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/simulation-study",
+    "name": "Simulation Study",
+    "desc": "線形計画法や二分法、モンテカルロ法などの数値計算をJavaで実装し、シミュレーションの挙動を可視化する学習用集",
+    "tags": [
+      "Java",
+      "数値計算",
+      "学習用"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/Java-study",
+    "name": "Java学習集",
+    "desc": "Javaの基礎文法からオブジェクト指向までを学ぶための練習用コードをまとめた学習リポジトリ",
+    "tags": [
+      "Java",
+      "学習用",
+      "個人開発"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/nodejs-study",
+    "name": "Node.js学習環境",
+    "desc": "Dockerで構築するNode.js学習用の実験環境。開発基盤の再現性を保ちながら、基礎動作や検証を手軽に試せる構成",
+    "tags": [
+      "Docker",
+      "Node.js",
+      "学習用"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/git-study",
+    "name": "Git学習メモ",
+    "desc": "git add、commit、push、tagの基本操作を整理し、ステージングからリモート反映までの流れを学ぶための学習用メモ",
+    "tags": [
+      "HTML",
+      "Git",
+      "学習用"
+    ],
+    "live": null
+  },
+  {
+    "repo": "Rai-Tsumugu/assessment",
+    "name": "いいところ診断",
+    "desc": "質問に答えるだけで、あなたの魅力や強みを楽しく診断し、自己理解のきっかけを与えるカジュアルなゲーム",
+    "tags": [
+      "JavaScript",
+      "個人開発",
+      "診断ゲーム"
+    ],
+    "live": null
+  },
+  {
     "repo": "Rai-Tsumugu/process-note",
     "name": "Process Note",
     "desc": "デザイン制作過程を自動記録・言語化するツール。Lean Launchpad 最優秀賞 / 起業家甲子園 受賞作。",
-    "tags": ["React", "TypeScript", "受賞作"],
+    "tags": [
+      "React",
+      "TypeScript",
+      "受賞作"
+    ],
     "live": null,
     "featured": true
   },
@@ -11,7 +213,11 @@
     "repo": "jphacks/sp_2501",
     "name": "Process Log",
     "desc": "JPHACKS 2025 出展作。画面キャプチャから制作過程を記録する。札幌会場ブロックスポンサー賞 ディップ株式会社 賞 受賞。",
-    "tags": ["JPHACKS", "TypeScript", "受賞作"],
+    "tags": [
+      "JPHACKS",
+      "TypeScript",
+      "受賞作"
+    ],
     "live": null,
     "featured": true
   },
@@ -19,28 +225,43 @@
     "repo": "Rai-Tsumugu/self-introduce",
     "name": "このポートフォリオ",
     "desc": "大学で友人が始めたWebホスティング上で公開している個人サイト。",
-    "tags": ["React", "自作"],
+    "tags": [
+      "React",
+      "自作"
+    ],
     "live": "https://rakuto-yamazaki.com/"
   },
   {
     "repo": "Rai-Tsumugu/daily-log",
     "name": "日常生活の記録ツール",
     "desc": "行動・開始時刻・詳細を記録するWebアプリ。高校以来3年分のログを蓄積している私のオリジン的作品。",
-    "tags": ["Web", "個人ツール", "3年運用"],
+    "tags": [
+      "Web",
+      "個人ツール",
+      "3年運用"
+    ],
     "live": null
   },
   {
     "repo": "Rai-Tsumugu/vrc-signboard",
     "name": "VRChat 案内表示板",
     "desc": "指定経路に沿って案内矢印が動くVRChat用ワールドアセット。Codex補助でロジック実装。",
-    "tags": ["Unity", "C#", "VRChat"],
+    "tags": [
+      "Unity",
+      "C#",
+      "VRChat"
+    ],
     "live": null
   },
   {
     "repo": "Rai-Tsumugu/password-strength",
     "name": "パスワード強度計測 (CUDA)",
     "desc": "総当たり攻撃を想定した強度計測プログラム。文字種や長さに応じた解答時間を算出。",
-    "tags": ["C", "CUDA", "学習"],
+    "tags": [
+      "C",
+      "CUDA",
+      "学習"
+    ],
     "live": null
   }
 ]
