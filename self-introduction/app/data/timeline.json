@@ -100,19 +100,6 @@
       "color": "#6366f1"
     },
     {
-      "id": "evt-2026-08-07-school-夏季休み",
-      "kind": "span",
-      "start": "2026-08-07",
-      "end": "2026-09-14",
-      "title": "夏季休み",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
       "id": "evt-2026-08-07-school-電算部",
       "kind": "point",
       "date": "2026-08-07",
@@ -129,32 +116,6 @@
       "kind": "point",
       "date": "2026-08-04",
       "title": "AIオンラインもくもく会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-08-03-school-前期定期試験",
-      "kind": "span",
-      "start": "2026-08-03",
-      "end": "2026-08-07",
-      "title": "前期定期試験",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-08-01-personal-倶知安じゃが祭り",
-      "kind": "span",
-      "start": "2026-08-01",
-      "end": "2026-08-03",
-      "title": "倶知安じゃが祭り",
       "category": "extraAct",
       "tags": [
         "calendar",
@@ -187,19 +148,6 @@
       "color": "#10b981"
     },
     {
-      "id": "evt-2026-07-30-school-第2クォーター授業日",
-      "kind": "span",
-      "start": "2026-07-30",
-      "end": "2026-08-01",
-      "title": "第2クォーター授業日",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
       "id": "evt-2026-07-28-work-リメディアル講座",
       "kind": "point",
       "date": "2026-07-28",
@@ -211,19 +159,6 @@
       ],
       "summary": "E403,E404",
       "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-07-26-school-北科大オーキャン",
-      "kind": "span",
-      "start": "2026-07-26",
-      "end": "2026-07-27",
-      "title": "北科大オーキャン",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
     },
     {
       "id": "evt-2026-07-24-school-電算部",
@@ -308,19 +243,6 @@
       "tags": [
         "calendar",
         "event"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-07-10-personal-北海道立総合研究機構-森林研究本部-展示",
-      "kind": "span",
-      "start": "2026-07-10",
-      "end": "2026-07-11",
-      "title": "北海道立総合研究機構-森林研究本部 展示",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
       ],
       "color": "#6366f1"
     },
@@ -460,19 +382,6 @@
       "color": "#6366f1"
     },
     {
-      "id": "evt-2026-06-20-personal-ezofrogs-審査",
-      "kind": "span",
-      "start": "2026-06-20",
-      "end": "2026-06-22",
-      "title": "EzoFrogs 審査",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
       "id": "evt-2026-06-20-event-札幌すごいaiハッカソン",
       "kind": "point",
       "date": "2026-06-20",
@@ -534,19 +443,6 @@
       "color": "#6366f1"
     },
     {
-      "id": "evt-2026-06-13-personal-ezofrogs-審査",
-      "kind": "span",
-      "start": "2026-06-13",
-      "end": "2026-06-15",
-      "title": "EzoFrogs 審査",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
       "id": "evt-2026-06-12-school-電算部",
       "kind": "point",
       "date": "2026-06-12",
@@ -582,19 +478,6 @@
       ],
       "summary": "E403,E404",
       "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-08-school-前期中間試験",
-      "kind": "span",
-      "start": "2026-06-08",
-      "end": "2026-06-10",
-      "title": "前期中間試験",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
     },
     {
       "id": "evt-2026-06-07-personal-nomaps-students",
@@ -1493,6 +1376,123 @@
         "Logs"
       ],
       "summary": "高校時代から3年分のログを蓄積中。",
+      "color": "#10b981"
+    },
+    {
+      "id": "evt-2026-08-07-school-夏季休み",
+      "kind": "span",
+      "start": "2026-08-07",
+      "end": "2026-09-14",
+      "title": "夏季休み",
+      "category": "school",
+      "tags": [
+        "calendar",
+        "school"
+      ],
+      "color": "#10b981"
+    },
+    {
+      "id": "evt-2026-08-03-school-前期定期試験",
+      "kind": "span",
+      "start": "2026-08-03",
+      "end": "2026-08-07",
+      "title": "前期定期試験",
+      "category": "school",
+      "tags": [
+        "calendar",
+        "school"
+      ],
+      "color": "#10b981"
+    },
+    {
+      "id": "evt-2026-08-01-personal-倶知安じゃが祭り",
+      "kind": "span",
+      "start": "2026-08-01",
+      "end": "2026-08-03",
+      "title": "倶知安じゃが祭り",
+      "category": "extraAct",
+      "tags": [
+        "calendar",
+        "personal"
+      ],
+      "color": "#6366f1"
+    },
+    {
+      "id": "evt-2026-07-30-school-第2クォーター授業日",
+      "kind": "span",
+      "start": "2026-07-30",
+      "end": "2026-08-01",
+      "title": "第2クォーター授業日",
+      "category": "school",
+      "tags": [
+        "calendar",
+        "school"
+      ],
+      "color": "#10b981"
+    },
+    {
+      "id": "evt-2026-07-26-school-北科大オーキャン",
+      "kind": "span",
+      "start": "2026-07-26",
+      "end": "2026-07-27",
+      "title": "北科大オーキャン",
+      "category": "school",
+      "tags": [
+        "calendar",
+        "school"
+      ],
+      "color": "#10b981"
+    },
+    {
+      "id": "evt-2026-07-10-personal-北海道立総合研究機構-森林研究本部-展示",
+      "kind": "span",
+      "start": "2026-07-10",
+      "end": "2026-07-11",
+      "title": "北海道立総合研究機構-森林研究本部 展示",
+      "category": "extraAct",
+      "tags": [
+        "calendar",
+        "personal"
+      ],
+      "color": "#6366f1"
+    },
+    {
+      "id": "evt-2026-06-20-personal-ezofrogs-審査",
+      "kind": "span",
+      "start": "2026-06-20",
+      "end": "2026-06-22",
+      "title": "EzoFrogs 審査",
+      "category": "extraAct",
+      "tags": [
+        "calendar",
+        "personal"
+      ],
+      "color": "#6366f1"
+    },
+    {
+      "id": "evt-2026-06-13-personal-ezofrogs-審査",
+      "kind": "span",
+      "start": "2026-06-13",
+      "end": "2026-06-15",
+      "title": "EzoFrogs 審査",
+      "category": "extraAct",
+      "tags": [
+        "calendar",
+        "personal"
+      ],
+      "color": "#6366f1"
+    },
+    {
+      "id": "evt-2026-06-08-school-前期中間試験",
+      "kind": "span",
+      "start": "2026-06-08",
+      "end": "2026-06-10",
+      "title": "前期中間試験",
+      "category": "school",
+      "tags": [
+        "calendar",
+        "school"
+      ],
       "color": "#10b981"
     }
   ]

@@ -14,7 +14,31 @@ type TimelineData = {
   spans: Span[];
 };
 
-const data = rawData as TimelineData;
+type TimelineRawData = Omit<TimelineData, "events" | "spans"> & {
+  events: Array<Point | Span>;
+  spans: Span[];
+};
+
+const rawTimelineData = rawData as TimelineRawData;
+const isPoint = (item: Point | Span): item is Point => item.kind === "point" && typeof (item as Point).date === "string";
+const isSpan = (item: Point | Span): item is Span => item.kind === "span" && typeof (item as Span).start === "string" && typeof (item as Span).end === "string";
+const rawEvents = Array.isArray(rawTimelineData.events) ? rawTimelineData.events : [];
+const rawSpans = Array.isArray(rawTimelineData.spans) ? rawTimelineData.spans : [];
+const normalizedSpans = rawSpans.filter(isSpan);
+const normalizedSpanIds = new Set(normalizedSpans.map((span) => span.id));
+
+for (const span of rawEvents.filter(isSpan)) {
+  if (!normalizedSpanIds.has(span.id)) {
+    normalizedSpans.push(span);
+    normalizedSpanIds.add(span.id);
+  }
+}
+
+const data: TimelineData = {
+  ...rawTimelineData,
+  events: rawEvents.filter(isPoint),
+  spans: normalizedSpans,
+};
 
 function ym(s: string) { const [y, m] = s.split("-").map(Number); return { y, m }; }
 function ymToIndex(s: string, origin: { y: number; m: number }) { const b = ym(s); return (b.y - origin.y) * 12 + (b.m - origin.m); }
