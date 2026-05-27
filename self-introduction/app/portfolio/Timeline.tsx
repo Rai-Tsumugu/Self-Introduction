@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import rawData from "../data/timeline.json";
 
 type Point = { id: string; kind: "point"; date: string; title: string; category: string; tags: string[]; summary: string; color: string; group?: string };
@@ -85,16 +85,17 @@ function packSpans(spans: Span[], mi: (s: string) => number) {
 
 export default function Timeline() {
   const pxPerMonth = data.scale.pxPerMonth;
-  const [range, setRange] = useState<{ start: string; end: string }>(() => computeRangeDeterministic());
-
-  useEffect(() => {
-    if (data.range?.end) return;
-    const candidate = nowPlusOneMonth();
-    setRange((prev) => (candidate > prev.end ? { ...prev, end: candidate } : prev));
-  }, []);
-
-  const RANGE_START = range.start;
-  const RANGE_END = range.end;
+  const deterministicRange = computeRangeDeterministic();
+  const RANGE_START = deterministicRange.start;
+  const RANGE_END = useSyncExternalStore(
+    () => () => {},
+    () => {
+      if (data.range?.end) return deterministicRange.end;
+      const candidate = nowPlusOneMonth();
+      return candidate > deterministicRange.end ? candidate : deterministicRange.end;
+    },
+    () => deterministicRange.end,
+  );
   const origin = ym(RANGE_START);
   const monthIndex = (s: string) => ymToIndex(s, origin);
   const months = monthIndex(RANGE_END) + 1;
