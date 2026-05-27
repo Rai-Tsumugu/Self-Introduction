@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState } from "react";
 import rawData from "../data/timeline.json";
 
 type Point = { id: string; kind: "point"; date: string; title: string; category: string; tags: string[]; summary: string; color: string; group?: string };
@@ -15,29 +18,49 @@ const data = rawData as TimelineData;
 
 function ym(s: string) { const [y, m] = s.split("-").map(Number); return { y, m }; }
 function ymToIndex(s: string, origin: { y: number; m: number }) { const b = ym(s); return (b.y - origin.y) * 12 + (b.m - origin.m); }
+function toYm(s: string) { const { y, m } = ym(s); return `${y}-${String(m).padStart(2, "0")}`; }
 
+function addMonths(ymStr: string, n: number): string {
+  const { y, m } = ym(ymStr);
+  const t = y * 12 + (m - 1) + n;
+  const ny = Math.floor(t / 12);
+  const nm = (t % 12) + 1;
+  return `${ny}-${String(nm).padStart(2, "0")}`;
+}
+
+function dataMaxYm(): string {
+  const all: string[] = [];
+  for (const e of data.events) all.push(toYm(e.date));
+  for (const s of data.spans) { all.push(toYm(s.start)); all.push(toYm(s.end)); }
+  all.sort();
+  return all[all.length - 1] ?? "2000-01";
+}
+
+function dataMinYm(): string {
+  const all: string[] = [];
+  for (const e of data.events) all.push(toYm(e.date));
+  for (const s of data.spans) { all.push(toYm(s.start)); all.push(toYm(s.end)); }
+  all.sort();
+  return all[0] ?? "2000-01";
+}
+
+// SSR と初期 CSR で必ず同一になる決定的なレンジ。
+function computeRangeDeterministic(): { start: string; end: string } {
+  const start = data.range?.start ? toYm(data.range.start) : dataMinYm();
+  const end = data.range?.end ? toYm(data.range.end) : addMonths(dataMaxYm(), 2);
+  return { start, end };
+}
+
+// クライアント mount 後に「今+1ヶ月」を反映する（決定的レンジより新しければ採用）。
 function nowPlusOneMonth(): string {
   const d = new Date();
-  const t = d.getFullYear() * 12 + d.getMonth() + 1; // 現在月の次月
+  const t = d.getFullYear() * 12 + d.getMonth() + 1;
   const y = Math.floor(t / 12);
   const m = (t % 12) + 1;
   return `${y}-${String(m).padStart(2, "0")}`;
 }
 
-function computeRange(): { start: string; end: string } {
-  if (data.range?.start && data.range?.end) return { start: data.range.start, end: data.range.end };
-  const all: string[] = [];
-  for (const e of data.events) all.push(e.date);
-  for (const s of data.spans) { all.push(s.start); all.push(s.end); }
-  const sorted = [...all].sort();
-  return {
-    start: data.range?.start ?? sorted[0],
-    end: data.range?.end ?? nowPlusOneMonth(),
-  };
-}
-
 function packSpans(spans: Span[], mi: (s: string) => number) {
-  // group キーが指定されていれば同一トラック扱い。未指定なら id 単体で1グループ。
   const groupKey = (s: Span) => s.group ?? `__${s.id}`;
   const groupMap = new Map<string, { start: number; end: number; key: string }>();
   for (const s of spans) {
@@ -56,13 +79,22 @@ function packSpans(spans: Span[], mi: (s: string) => number) {
     groupCol.set(g.key, placed);
   }
   const assignments = new Map<string, number>();
-  for (const s of spans) assignments.set(s.id, groupCol.get(groupKey(s))!);
+  for (const s of spans) assignments.set(s.id, groupCol.get(groupKey(s)) ?? 0);
   return { assignments, cols: colEnds.length, groupCol };
 }
 
 export default function Timeline() {
   const pxPerMonth = data.scale.pxPerMonth;
-  const { start: RANGE_START, end: RANGE_END } = computeRange();
+  const [range, setRange] = useState<{ start: string; end: string }>(() => computeRangeDeterministic());
+
+  useEffect(() => {
+    if (data.range?.end) return;
+    const candidate = nowPlusOneMonth();
+    setRange((prev) => (candidate > prev.end ? { ...prev, end: candidate } : prev));
+  }, []);
+
+  const RANGE_START = range.start;
+  const RANGE_END = range.end;
   const origin = ym(RANGE_START);
   const monthIndex = (s: string) => ymToIndex(s, origin);
   const months = monthIndex(RANGE_END) + 1;
