@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>data.ts 分割レビュー</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #181b22;
+    --panel-2: #1f232c;
+    --border: #2a2f3a;
+    --text: #e6e8ee;
+    --muted: #9aa3b2;
+    --user: #2b6cb0;
+    --claude: #4a5568;
+    --accent: #63b3ed;
+    --ok: #68d391;
+    --warn: #f6ad55;
+    --code-bg: #0b0d12;
+    --row-alt: #1a1d24;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px;
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic UI", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+  }
+  .container { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 24px; font-size: 14px; }
+
+  .msg { display: flex; gap: 12px; margin: 18px 0; }
+  .msg .avatar {
+    flex: 0 0 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; font-size: 13px;
+  }
+  .msg.user .avatar { background: var(--user); }
+  .msg.claude .avatar { background: var(--claude); }
+  .msg .bubble {
+    flex: 1; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px; min-width: 0;
+  }
+  .msg .name { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+
+  .section {
+    background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 8px; margin: 14px 0; overflow: hidden;
+  }
+  .section-header {
+    padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+    background: linear-gradient(180deg, #232833, #1f232c);
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title { font-weight: 700; font-size: 15px; }
+  .section-desc { color: var(--muted); font-size: 12px; }
+  .file-path {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px; color: var(--accent); margin-left: auto;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    text-align: left; padding: 9px 12px;
+    color: var(--muted); font-weight: 600;
+    background: var(--code-bg);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody tr:nth-child(even) { background: var(--row-alt); }
+  tbody tr:last-child td { border-bottom: none; }
+
+  code, .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+  }
+  .tag {
+    display: inline-block; padding: 2px 8px; margin: 2px 4px 2px 0;
+    border-radius: 10px; font-size: 11px;
+    background: var(--code-bg); color: var(--accent);
+    border: 1px solid var(--border);
+  }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: 600;
+  }
+  .badge-major { background: #2d3748; color: var(--warn); border: 1px solid var(--warn); }
+  .badge-minor { background: #2d3748; color: var(--muted); border: 1px solid var(--muted); }
+  .badge-featured { background: #2d3748; color: var(--ok); border: 1px solid var(--ok); }
+  .badge-status {
+    background: var(--code-bg); color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .role-Main { color: var(--ok); font-weight: 600; }
+  .role-Learning { color: var(--warn); font-weight: 600; }
+
+  .null { color: var(--muted); font-style: italic; }
+  .check { color: var(--ok); }
+  .note { color: var(--warn); }
+
+  .kv-grid {
+    display: grid; grid-template-columns: 140px 1fr; gap: 0;
+  }
+  .kv-grid > div {
+    padding: 8px 12px; border-bottom: 1px solid var(--border);
+  }
+  .kv-grid > div:nth-child(4n+1),
+  .kv-grid > div:nth-child(4n+2) { background: var(--row-alt); }
+  .kv-grid > div:first-child,
+  .kv-grid > div:nth-child(2) { background: var(--code-bg); }
+  .kv-key { color: var(--muted); font-weight: 600; }
+
+  ul.compact { margin: 4px 0; padding-left: 18px; }
+  ul.compact li { margin: 2px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>data.ts 分割レビュー</h1>
+  <div class="subtitle">ブランチ: <code>refactor/split-portfolio-data</code> ／ 表形式での内容確認</div>
+
+  <!-- USER -->
+  <div class="msg user">
+    <div class="avatar">U</div>
+    <div class="bubble">
+      <div class="name">You</div>
+      JSONのデータを表で見やすくして下さい。
+    </div>
+  </div>
+
+  <!-- CLAUDE: 表形式 -->
+  <div class="msg claude">
+    <div class="avatar">C</div>
+    <div class="bubble">
+      <div class="name">Claude — 各JSONを表形式で表示</div>
+
+      <!-- identity -->
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">identity</div>
+            <div class="section-desc">名前・タグライン・ハンドル</div>
+          </div>
+          <div class="file-path">app/data/identity.json</div>
+        </div>
+        <div class="kv-grid">
+          <div class="kv-key">name</div>      <div>Rai Tsumugu</div>
+          <div class="kv-key">nameJp</div>    <div>らっく</div>
+          <div class="kv-key">kana</div>      <div>らっく</div>
+          <div class="kv-key">tagline</div>   <div>学生デベロッパー。VRと記録の境目で<br>プロトタイプを作っています。</div>
+          <div class="kv-key">titles</div>    <div><span class="tag">Student (大学1年)</span><span class="tag">Web / VR prototyper</span><span class="tag">Hackathon participant</span></div>
+        </div>
+        <table>
+          <thead><tr><th>svc</th><th>val</th><th>url</th><th>primary</th></tr></thead>
+          <tbody>
+            <tr><td>alias</td>  <td>らっく</td>      <td class="null">null</td>                                              <td>✓</td></tr>
+            <tr><td>name</td>   <td>Rai Tsumugu</td> <td class="null">null</td>                                              <td></td></tr>
+            <tr><td>github</td> <td>Rai-Tsumugu</td> <td class="mono"><a href="https://github.com/Rai-Tsumugu" style="color:var(--accent)">https://github.com/Rai-Tsumugu</a></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- core -->
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">core</div>
+            <div class="section-desc">フォーカス領域・タグ</div>
+          </div>
+          <div class="file-path">app/data/core.json</div>
+        </div>
+        <div class="kv-grid">
+          <div class="kv-key">focus</div> <div>VR &amp; Logs</div>
+          <div class="kv-key">tags</div>  <div><span class="tag">VR</span><span class="tag">Logs</span><span class="tag">Prototyping</span></div>
+        </div>
+      </div>
+
+      <!-- now -->
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">now</div>
+            <div class="section-desc">現在やっていること（3 件）</div>
+          </div>
+          <div class="file-path">app/data/now.json</div>
+        </div>
+        <table>
+          <thead><tr><th>status</th><th>title</th><th>body</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-status">building</span></td>
+              <td>Process Note を推進中</td>
+              <td>起業家甲子園で受賞した内容をもとに、制作過程の自動記録・言語化ツールを継続開発。</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-status">learning</span></td>
+              <td>Claude Code / Codex によるプログラミング</td>
+              <td>Claude Code や Codex を活用したAIコーディングを実践し、プロトタイプ開発のサイクルを高速化中。</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-status">exploring</span></td>
+              <td>VRでの立体的な音楽表現</td>
+              <td>音→映像、3Dオーディオやシェーダーを組み合わせた空間体験に興味あり。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- awards -->
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">awards</div>
+            <div class="section-desc">受賞歴（5 件・新しい順）</div>
+          </div>
+          <div class="file-path">app/data/awards.json</div>
+        </div>
+        <table>
+          <thead><tr><th>date</th><th>title</th><th>meta</th><th>project</th><th>summary</th><th>major</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="mono">2026.3.10</td>
+              <td>Hokkaido アプリコンテスト2026</td>
+              <td>HICTA(北海道IT推進協会)賞 / メディアマジック賞</td>
+              <td>QuestLogic</td>
+              <td>子供が学習を丁寧に行なった度合いを可視化して、丁寧に行うほど報酬としてのゲーム時間が増える家庭内学習・ゲーム管理ツール</td>
+              <td><span class="badge badge-major">major</span></td>
+            </tr>
+            <tr>
+              <td class="mono">2025.11.29</td>
+              <td>北海道 起業家甲子園 2025</td>
+              <td>北海道総合通信局長賞 / NTTドコモ北海道支社賞</td>
+              <td>Process Note</td>
+              <td>ProcessNoteを推進した内容を発表。</td>
+              <td><span class="badge badge-major">major</span></td>
+            </tr>
+            <tr>
+              <td class="mono">2025.10.19</td>
+              <td>JPHACKS 2025</td>
+              <td>札幌会場ブロックスポンサー賞 ディップ株式会社 賞</td>
+              <td>Process Log</td>
+              <td>クリエイティブ × Tech をテーマに、ProcessNoteのアイデアの一部を形にし、画面からの記録作成を実装。</td>
+              <td><span class="badge badge-major">major</span></td>
+            </tr>
+            <tr>
+              <td class="mono">2025.09.14</td>
+              <td>Deep Tech CORE XR Ideathon 2025</td>
+              <td>優秀賞 / Excellence Award</td>
+              <td>モノ探し (チーム: メガネ)</td>
+              <td>空港や買い物の待ち時間で、3面モニターを用いた入り込めるモノ探し体験を提供するプロトタイプを提案。</td>
+              <td><span class="badge badge-minor">false</span></td>
+            </tr>
+            <tr>
+              <td class="mono">2025.09.12</td>
+              <td>Lean Launchpad Hokkaido 2025</td>
+              <td>最優秀賞 / Best Award</td>
+              <td>ProcessNote</td>
+              <td>デザインの制作過程を自動記録・言語化し、プロセスの価値を活用するツールを提案。</td>
+              <td><span class="badge badge-major">major</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- skills -->
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">skills</div>
+            <div class="section-desc">languages / frameworks / ai を統合</div>
+          </div>
+          <div class="file-path">app/data/skills.json</div>
+        </div>
+
+        <div style="padding:10px 14px 4px;color:var(--muted);font-size:12px;font-weight:600;">languages</div>
+        <table>
+          <thead><tr><th>name</th><th>role</th><th>headline</th></tr></thead>
+          <tbody>
+            <tr><td>JavaScript</td><td><span class="role-Main">Main</span></td>        <td>プロトタイプ / Web制作</td></tr>
+            <tr><td>Python</td>    <td><span class="role-Main">Main</span></td>        <td>自動化 / AI連携</td></tr>
+            <tr><td>C</td>         <td><span class="role-Learning">Learning</span></td><td>基礎演習・大学1年授業</td></tr>
+            <tr><td>C#</td>        <td><span class="role-Learning">Learning</span></td><td>Unity / VRChat</td></tr>
+            <tr><td>Java</td>      <td><span class="role-Learning">Learning</span></td><td>シミュレーション</td></tr>
+          </tbody>
+        </table>
+
+        <div style="padding:14px 14px 4px;color:var(--muted);font-size:12px;font-weight:600;border-top:1px solid var(--border);">frameworks</div>
+        <table>
+          <thead><tr><th>name</th><th>note</th></tr></thead>
+          <tbody>
+            <tr><td>React</td>    <td>TypeScriptベースでWeb UIを制作</td></tr>
+            <tr><td>Three.js</td> <td>WebGLデモ・インタラクティブプロトタイプ</td></tr>
+            <tr><td>Unity</td>    <td>VRChatのワールドアセット制作</td></tr>
+          </tbody>
+        </table>
+
+        <div style="padding:14px 14px 4px;color:var(--muted);font-size:12px;font-weight:600;border-top:1px solid var(--border);">ai</div>
+        <div class="kv-grid">
+          <div class="kv-key">daily</div>  <div><span class="tag">ChatGPT</span><span class="tag">Gemini</span><span class="tag">NotebookLM</span><span class="tag">Perplexity</span></div>
+          <div class="kv-key">coding</div> <div><span class="tag">Codex</span><span class="tag">Gemini</span><span class="tag">GitHub Copilot</span></div>
+        </div>
+      </div>
+
+      <!-- works -->
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">works</div>
+            <div class="section-desc">作品一覧（6 件）</div>
+          </div>
+          <div class="file-path">app/data/works.json</div>
+        </div>
+        <table>
+          <thead><tr><th>name</th><th>repo</th><th>desc</th><th>tags</th><th>live</th><th>featured</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Process Note</td>
+              <td class="mono">Rai-Tsumugu/process-note</td>
+              <td>デザイン制作過程を自動記録・言語化するツール。Lean Launchpad 最優秀賞 / 起業家甲子園 受賞作。</td>
+              <td><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">受賞作</span></td>
+              <td class="null">null</td>
+              <td><span class="badge badge-featured">featured</span></td>
+            </tr>
+            <tr>
+              <td>Process Log</td>
+              <td class="mono">jphacks/sp_2501</td>
+              <td>JPHACKS 2025 出展作。画面キャプチャから制作過程を記録する。札幌会場ブロックスポンサー賞 ディップ株式会社 賞 受賞。</td>
+              <td><span class="tag">JPHACKS</span><span class="tag">TypeScript</span><span class="tag">受賞作</span></td>
+              <td class="null">null</td>
+              <td><span class="badge badge-featured">featured</span></td>
+            </tr>
+            <tr>
+              <td>このポートフォリオ</td>
+              <td class="mono">Rai-Tsumugu/self-introduce</td>
+              <td>大学で友人が始めたWebホスティング上で公開している個人サイト。</td>
+              <td><span class="tag">React</span><span class="tag">自作</span></td>
+              <td class="mono"><a href="https://rakuto-yamazaki.com/" style="color:var(--accent)">https://rakuto-yamazaki.com/</a></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>日常生活の記録ツール</td>
+              <td class="mono">Rai-Tsumugu/daily-log</td>
+              <td>行動・開始時刻・詳細を記録するWebアプリ。高校以来3年分のログを蓄積している私のオリジン的作品。</td>
+              <td><span class="tag">Web</span><span class="tag">個人ツール</span><span class="tag">3年運用</span></td>
+              <td class="null">null</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>VRChat 案内表示板</td>
+              <td class="mono">Rai-Tsumugu/vrc-signboard</td>
+              <td>指定経路に沿って案内矢印が動くVRChat用ワールドアセット。Codex補助でロジック実装。</td>
+              <td><span class="tag">Unity</span><span class="tag">C#</span><span class="tag">VRChat</span></td>
+              <td class="null">null</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>パスワード強度計測 (CUDA)</td>
+              <td class="mono">Rai-Tsumugu/password-strength</td>
+              <td>総当たり攻撃を想定した強度計測プログラム。文字種や長さに応じた解答時間を算出。</td>
+              <td><span class="tag">C</span><span class="tag">CUDA</span><span class="tag">学習</span></td>
+              <td class="null">null</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- pcs -->
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">pcs</div>
+            <div class="section-desc">使用PCスペック（3 台）</div>
+          </div>
+          <div class="file-path">app/data/pcs.json</div>
+        </div>
+        <table>
+          <thead><tr><th>kind</th><th>OS</th><th>CPU</th><th>GPU</th><th>RAM</th><th>SSD</th><th>note</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Laptop</td>
+              <td>Windows 11 Home</td>
+              <td>Intel Core i5-1335U</td>
+              <td>Intel Iris Xe</td>
+              <td>32 GB</td>
+              <td>NVMe 1 TB</td>
+              <td>外出先で、大学課題・コーディング作業などタスクごとのタスクビューを切り替えて使用。</td>
+            </tr>
+            <tr>
+              <td>Desktop</td>
+              <td>Windows 11 Pro</td>
+              <td>Intel Core i7-12700</td>
+              <td>NVIDIA RTX 3050</td>
+              <td>32 GB</td>
+              <td>NVMe 1 TB × 2</td>
+              <td>そろそろGPUをアップグレードして、VR開発とローカルAIモデルの実行環境を強化したい。</td>
+            </tr>
+            <tr>
+              <td>MacBook Air</td>
+              <td>macOS</td>
+              <td>Apple M4</td>
+              <td>Apple M4 (内蔵GPU)</td>
+              <td>16 GB</td>
+              <td>256 GB</td>
+              <td>持ち運び用。軽量・長時間バッテリーでカフェや移動中のコーディングに使用。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note" style="margin-top:14px;">
+        内容に問題なければ「コミットして」「プッシュして」「PR を作成して」とお伝えください。修正があれば該当箇所をお知らせください。
+      </p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

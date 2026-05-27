@@ -1,0 +1,18 @@
+{
+  "languages": [
+    { "name": "JavaScript", "role": "Main",     "headline": "プロトタイプ / Web制作" },
+    { "name": "Python",     "role": "Main",     "headline": "自動化 / AI連携" },
+    { "name": "C",          "role": "Learning", "headline": "基礎演習・大学1年授業" },
+    { "name": "C#",         "role": "Learning", "headline": "Unity / VRChat" },
+    { "name": "Java",       "role": "Learning", "headline": "シミュレーション" }
+  ],
+  "frameworks": [
+    { "name": "React",    "note": "TypeScriptベースでWeb UIを制作" },
+    { "name": "Three.js", "note": "WebGLデモ・インタラクティブプロトタイプ" },
+    { "name": "Unity",    "note": "VRChatのワールドアセット制作" }
+  ],
+  "ai": {
+    "daily":  ["ChatGPT", "Gemini", "NotebookLM", "Perplexity"],
+    "coding": ["Codex", "Gemini", "GitHub Copilot"]
+  }
+}
