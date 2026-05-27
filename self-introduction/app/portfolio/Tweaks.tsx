@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useSyncExternalStore } from 'react';
 
 const ACCENTS = {
   red:    { light: ['#c4452d', '#e5a89a', '#fbefe9'], dark: ['#e86849', '#b3543e', '#2a1a14'] },
@@ -18,19 +18,25 @@ interface TweakVals {
 }
 
 const DEFAULTS: TweakVals = { theme: 'light', fontScale: 1, accentHue: 'red' };
+const subscribeMounted = () => () => {};
+const getMountedSnapshot = () => true;
+const getServerMountedSnapshot = () => false;
+
+function readStoredVals(): TweakVals {
+  if (typeof window === 'undefined') return DEFAULTS;
+
+  try {
+    const stored = JSON.parse(localStorage.getItem('pf.tweaks') || '{}');
+    return { ...DEFAULTS, ...stored };
+  } catch {
+    return DEFAULTS;
+  }
+}
 
 export default function Tweaks() {
-  const [vals, setVals] = useState<TweakVals>(DEFAULTS);
+  const [vals, setVals] = useState<TweakVals>(readStoredVals);
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    try {
-      const stored = JSON.parse(localStorage.getItem('pf.tweaks') || '{}');
-      setVals(v => ({ ...v, ...stored }));
-    } catch {}
-  }, []);
+  const mounted = useSyncExternalStore(subscribeMounted, getMountedSnapshot, getServerMountedSnapshot);
 
   useEffect(() => {
     if (!mounted) return;
