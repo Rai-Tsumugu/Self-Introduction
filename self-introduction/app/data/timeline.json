@@ -236,6 +236,20 @@
       "color": "#f97316"
     },
     {
+      "id": "evt-2026-06-06-hokudai-vr",
+      "kind": "point",
+      "date": "2026-06-06",
+      "title": "北大祭VR体験会",
+      "category": "extraActivity",
+      "group": "metaverse",
+      "tags": [
+        "VR",
+        "Hokudai"
+      ],
+      "summary": "北海道大学祭にてVR体験会を実施。",
+      "color": "#10b981"
+    },
+    {
       "id": "evt-2025-06-07-hokudai-vr",
       "kind": "point",
       "date": "2025-06-07",
@@ -254,8 +268,8 @@
     {
       "id": "spn-2025-12-01-cross-univ",
       "kind": "span",
-      "start": "2025-12-01",
-      "end": "2026-02-28",
+      "start": "2025-12-06",
+      "end": "2026-03-05",
       "title": "大学間越境学習プログラム",
       "category": "extraActivity",
       "group": "cross-univ",
@@ -374,8 +388,8 @@
       "start": "2025-04-15",
       "end": "2027-03-31",
       "title": "ニスコ進学スクール 塾講師",
-      "category": "extraActivity",
-      "group": "part-time",
+      "category": "myJob",
+      "group": "nisco",
       "tags": [
         "Part-time",
         "Tutor"
@@ -389,8 +403,8 @@
       "start": "2026-04-01",
       "end": "2027-03-31",
       "title": "Paltis パソコン教室 講師",
-      "category": "extraActivity",
-      "group": "part-time",
+      "category": "myJob",
+      "group": "paltis",
       "tags": [
         "Part-time",
         "PC"

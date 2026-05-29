@@ -3,8 +3,8 @@
 import { useSyncExternalStore } from "react";
 import rawData from "../data/timeline.json";
 
-type Point = { id: string; kind: "point"; date: string; title: string; category: string; tags: string[]; summary: string; color: string; group?: string };
-type Span = { id: string; kind: "span"; start: string; end: string; title: string; category: string; tags: string[]; summary: string; color: string; group?: string };
+type Point = { id: string; kind: "point"; date: string; title: string; category: string; tags: string[]; summary: string; color: string; group?: string; offsetDays?: number };
+type Span = { id: string; kind: "span"; start: string; end: string; title: string; category: string; tags: string[]; summary: string; color: string; group?: string; startOffsetDays?: number; endOffsetDays?: number };
 type CategoryConfig = { key: string; label?: string };
 type TimelineData = {
   scale: { pxPerMonth: number };
@@ -43,13 +43,20 @@ const data: TimelineData = {
 function ym(s: string) { const [y, m] = s.split("-").map(Number); return { y, m }; }
 function ymToIndex(s: string, origin: { y: number; m: number }) { const b = ym(s); return (b.y - origin.y) * 12 + (b.m - origin.m); }
 function toYm(s: string) { const { y, m } = ym(s); return `${y}-${String(m).padStart(2, "0")}`; }
-function daysInMonth(ymStr: string): number {
-  const { y, m } = ym(ymStr);
-  return new Date(y, m, 0).getDate();
-}
 
-function dayOfMonth(date: string): number {
-  return Number(date.slice(8, 10));
+function ymd(s: string) {
+  const [y, m, d] = s.split("-").map(Number);
+  return { y, m, d: Number.isFinite(d) ? d : 1 };
+}
+function daysInMonth(y: number, m: number) { return new Date(y, m, 0).getDate(); }
+// 日付に offset(日数) を加算した結果を、原点からの分数月インデックスで返す。
+// edge="start" → その日の開始位置、"end" → 翌日開始位置(=その日の終了位置)。
+function dateToFracIndex(s: string, origin: { y: number; m: number }, edge: "start" | "end", offsetDays = 0) {
+  const { y, m, d } = ymd(s);
+  const base = new Date(y, m - 1, d);
+  base.setDate(base.getDate() + offsetDays + (edge === "end" ? 1 : 0));
+  const ny = base.getFullYear(), nm = base.getMonth() + 1, nd = base.getDate();
+  return (ny - origin.y) * 12 + (nm - origin.m) + (nd - 1) / daysInMonth(ny, nm);
 }
 
 function addMonths(ymStr: string, n: number): string {
@@ -76,31 +83,42 @@ function dataMinYm(): string {
   return all[0] ?? "2000-01";
 }
 
-// SSR と初期 CSR で必ず同一になる決定的なレンジ。
+function ymOfDate(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+}
+
+// SSR と初期 CSR で必ず同一になる決定的なレンジ（data.range もしくはデータから算出）。
 function computeRangeDeterministic(): { start: string; end: string } {
   const start = data.range?.start ? toYm(data.range.start) : dataMinYm();
   const end = data.range?.end ? toYm(data.range.end) : addMonths(dataMaxYm(), 2);
   return { start, end };
 }
 
-// クライアント mount 後に「今+1ヶ月」を反映する（決定的レンジより新しければ採用）。
-function nowPlusOneMonth(): string {
-  const d = new Date();
-  const t = d.getFullYear() * 12 + d.getMonth() + 1;
-  const y = Math.floor(t / 12);
-  const m = (t % 12) + 1;
-  return `${y}-${String(m).padStart(2, "0")}`;
+// クライアント mount 後に「最初の記録 〜 今日+1週間」のレンジに切り替える。
+function rangeTodayToNextWeek(): { start: string; end: string } {
+  const start = data.range?.start ? toYm(data.range.start) : dataMinYm();
+  const plusWeek = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  const end = ymOfDate(plusWeek);
+  return { start, end };
 }
 
-function packSpans(spans: Span[], mi: (s: string) => number) {
-  const groupKey = (s: Span) => s.group ?? `__${s.id}`;
+function packSpans(spans: Span[], points: Point[], mi: (s: string) => number) {
+  const spanGroupKey = (s: Span) => s.group ?? `__s_${s.id}`;
+  const pointGroupKey = (p: Point) => p.group ?? `__p_${p.id}`;
   const groupMap = new Map<string, { start: number; end: number; key: string }>();
   for (const s of spans) {
-    const k = groupKey(s);
+    const k = spanGroupKey(s);
     const sMi = mi(s.start), eMi = mi(s.end);
     const cur = groupMap.get(k);
     if (!cur) groupMap.set(k, { start: sMi, end: eMi, key: k });
     else { cur.start = Math.min(cur.start, sMi); cur.end = Math.max(cur.end, eMi); }
+  }
+  for (const p of points) {
+    const k = pointGroupKey(p);
+    const pMi = mi(p.date);
+    const cur = groupMap.get(k);
+    if (!cur) groupMap.set(k, { start: pMi, end: pMi, key: k });
+    else { cur.start = Math.min(cur.start, pMi); cur.end = Math.max(cur.end, pMi); }
   }
   const sortedGroups = [...groupMap.values()].sort((a, b) => a.start - b.start || b.end - a.end);
   const colEnds: number[] = [];
@@ -111,21 +129,23 @@ function packSpans(spans: Span[], mi: (s: string) => number) {
     groupCol.set(g.key, placed);
   }
   const assignments = new Map<string, number>();
-  for (const s of spans) assignments.set(s.id, groupCol.get(groupKey(s)) ?? 0);
-  return { assignments, cols: colEnds.length, groupCol };
+  for (const s of spans) assignments.set(s.id, groupCol.get(spanGroupKey(s)) ?? 0);
+  const pointAssignments = new Map<string, number>();
+  for (const p of points) pointAssignments.set(p.id, groupCol.get(pointGroupKey(p)) ?? 0);
+  return { assignments, pointAssignments, cols: colEnds.length, groupCol };
 }
 
 export default function Timeline() {
   const pxPerMonth = data.scale.pxPerMonth;
   const deterministicRange = computeRangeDeterministic();
-  const RANGE_START = deterministicRange.start;
+  const RANGE_START = useSyncExternalStore(
+    () => () => {},
+    () => rangeTodayToNextWeek().start,
+    () => deterministicRange.start,
+  );
   const RANGE_END = useSyncExternalStore(
     () => () => {},
-    () => {
-      if (data.range?.end) return deterministicRange.end;
-      const candidate = nowPlusOneMonth();
-      return candidate > deterministicRange.end ? candidate : deterministicRange.end;
-    },
+    () => rangeTodayToNextWeek().end,
     () => deterministicRange.end,
   );
   const origin = ym(RANGE_START);
@@ -133,16 +153,9 @@ export default function Timeline() {
   const months = monthIndex(RANGE_END) + 1;
   const totalH = months * pxPerMonth;
   const yOfMonth = (mi: number) => (months - 1 - mi) * pxPerMonth;
-  const pointPadding = 8;
-  const pointStackStep = 10;
-  const pointTop = (date: string) => {
-    const monthTop = yOfMonth(monthIndex(date));
-    const monthDays = daysInMonth(toYm(date));
-    const day = dayOfMonth(date);
-    const usableHeight = Math.max(0, pxPerMonth - pointPadding * 2);
-    const dayOffset = monthDays > 1 ? ((day - 1) / (monthDays - 1)) * usableHeight : usableHeight / 2;
-    return monthTop + pointPadding + dayOffset;
-  };
+  const yOfFrac = (fi: number) => (months - fi) * pxPerMonth;
+  const fracStart = (s: string, off = 0) => dateToFracIndex(s, origin, "start", off);
+  const fracEnd = (s: string, off = 0) => dateToFracIndex(s, origin, "end", off);
 
   const events = data.events;
   const spans = data.spans;
@@ -160,7 +173,7 @@ export default function Timeline() {
     return { mi: i, label: m === 1 || i === 0 ? `${y}.${String(m).padStart(2, "0")}` : String(m).padStart(2, "0"), isYear: m === 1 };
   });
 
-  const SUB_W = 30, SUB_GAP = 6, PAD = 12;
+  const SUB_W = 30, SUB_GAP = 6, PAD = 12, HEADER_H = 42;
 
   return (
     <div className="p2a3-board">
@@ -176,17 +189,7 @@ export default function Timeline() {
         {cats.map((cat) => {
           const laneSpans = spans.filter((s) => s.category === cat.key);
           const lanePoints = events.filter((e) => e.category === cat.key);
-          const lanePointOrder = new Map<string, { index: number; total: number }>();
-          const lanePointGroups = new Map<string, Point[]>();
-          for (const point of lanePoints) {
-            const group = lanePointGroups.get(point.date);
-            if (group) group.push(point);
-            else lanePointGroups.set(point.date, [point]);
-          }
-          for (const group of lanePointGroups.values()) {
-            group.forEach((point, index) => lanePointOrder.set(point.id, { index, total: group.length }));
-          }
-          const pack = packSpans(laneSpans, monthIndex);
+          const pack = packSpans(laneSpans, lanePoints, monthIndex);
           const cols = Math.max(1, pack.cols);
           const stripeW = cols * SUB_W + (cols - 1) * SUB_GAP;
           const laneMinW = stripeW + PAD * 2 + 40;
@@ -194,22 +197,23 @@ export default function Timeline() {
             <div key={cat.key} className="p2a3-lane" style={{ height: totalH, minWidth: laneMinW }}>
               <div className="p2a3-lane-head">
                 <span className="p2a3-lane-label">{cat.label ?? cat.key}</span>
-                <span className="p2a3-lane-badge mono">· {cols} parallel</span>
               </div>
               <div className="p2a3-lane-body" style={{ height: totalH }}>
                 {laneSpans.map((s) => {
-                  const sMi = monthIndex(s.start), eMi = monthIndex(s.end);
-                  const maxMi = months - 1;
-                  const visibleEMi = Math.min(eMi, maxMi);
-                  const ongoing = eMi > maxMi;
-                  const top = yOfMonth(visibleEMi);
-                  const h = (visibleEMi - sMi + 1) * pxPerMonth;
+                  const sFi = fracStart(s.start, s.startOffsetDays ?? 0);
+                  const eFi = fracEnd(s.end, s.endOffsetDays ?? 0);
+                  const visibleEFi = Math.min(eFi, months);
+                  const ongoing = eFi > months;
+                  const rawTop = yOfFrac(visibleEFi);
+                  const rawH = (visibleEFi - sFi) * pxPerMonth;
+                  const top = ongoing ? HEADER_H : rawTop;
+                  const h = ongoing ? Math.max(0, rawH - HEADER_H) : rawH;
                   const col = pack.assignments.get(s.id) ?? 0;
                   return (
-                    <div key={s.id} className={"p2a3-stripe" + (ongoing ? " is-ongoing" : "")} style={{ top, height: h, left: PAD + col * (SUB_W + SUB_GAP), width: SUB_W, background: `color-mix(in srgb, ${s.color} 30%, var(--bg))`, borderColor: `color-mix(in srgb, ${s.color} 55%, var(--line))` }}>
-                      {!ongoing && <div className="p2a3-stripe-cap" style={{ background: `color-mix(in srgb, ${s.color} 70%, var(--ink))` }} />}
+                    <div key={s.id} className={"p2a3-stripe" + (ongoing ? " is-ongoing" : "")} style={{ top, height: h, left: PAD + col * (SUB_W + SUB_GAP), width: SUB_W, background: `color-mix(in srgb, ${s.color} 12%, transparent)`, borderColor: `color-mix(in srgb, ${s.color} 20%, transparent)`, ["--ev-color" as never]: s.color } as React.CSSProperties}>
+                      {!ongoing && <div className="p2a3-stripe-cap" style={{ background: `color-mix(in srgb, ${s.color} 22%, transparent)` }} />}
                       <div className="p2a3-stripe-label serif">{s.title}</div>
-                      <div className="p2a3-popover" style={{ borderLeftColor: `color-mix(in srgb, ${s.color} 65%, var(--line))` }}>
+                      <div className="p2a3-popover" style={{ borderLeftColor: `color-mix(in srgb, ${s.color} 22%, transparent)` }}>
                         <div className="p2a3-pop-title serif">{s.title}</div>
                         <div className="p2a3-pop-meta mono">{s.start} → {s.end}</div>
                         <div className="p2a3-pop-summary">{s.summary}</div>
@@ -222,30 +226,26 @@ export default function Timeline() {
                 })}
 
                 {lanePoints.map((e) => {
+                  const assignedCol = pack.pointAssignments.get(e.id);
                   const groupedCol = e.group ? pack.groupCol.get(e.group) : undefined;
-                  const sameDay = lanePointOrder.get(e.id);
-                  const dayStackOffset = sameDay && sameDay.total > 1
-                    ? (sameDay.index - (sameDay.total - 1) / 2) * pointStackStep
-                    : 0;
-                  const baseTop = pointTop(e.date);
-                  const laneTop = yOfMonth(monthIndex(e.date));
-                  const top = Math.max(laneTop + 4, Math.min(laneTop + pxPerMonth - 4, baseTop + dayStackOffset));
-                  const left = groupedCol !== undefined
-                    ? PAD + groupedCol * (SUB_W + SUB_GAP) + SUB_W + 6
+                  const col = groupedCol ?? assignedCol;
+                  const left = col !== undefined
+                    ? PAD + col * (SUB_W + SUB_GAP)
                     : PAD + (laneSpans.length > 0 ? stripeW + 10 : 0);
                   return (
                   <div
                     key={e.id}
-                    className={"p2a3-point" + (groupedCol !== undefined ? " is-grouped" : "")}
+                    className={"p2a3-point" + (col !== undefined ? " is-grouped" : "")}
                     style={{
-                      top,
+                      top: yOfFrac(fracEnd(e.date, e.offsetDays ?? 0)),
                       left,
-                      borderLeftColor: `color-mix(in srgb, ${e.color} 70%, var(--ink))`,
-                    }}
+                      borderLeftColor: `color-mix(in srgb, ${e.color} 22%, transparent)`,
+                      ["--ev-color" as never]: e.color,
+                    } as React.CSSProperties}
                   >
                     <span
                       className="p2a3-point-bar"
-                      style={{ background: `color-mix(in srgb, ${e.color} 70%, var(--ink))` }}
+                      style={{ background: `color-mix(in srgb, ${e.color} 22%, transparent)` }}
                     />
                     <div className="p2a3-point-title serif">{e.title}</div>
                     <div className="p2a3-point-date mono">{e.date}</div>
