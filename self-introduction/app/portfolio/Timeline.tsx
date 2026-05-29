@@ -43,6 +43,14 @@ const data: TimelineData = {
 function ym(s: string) { const [y, m] = s.split("-").map(Number); return { y, m }; }
 function ymToIndex(s: string, origin: { y: number; m: number }) { const b = ym(s); return (b.y - origin.y) * 12 + (b.m - origin.m); }
 function toYm(s: string) { const { y, m } = ym(s); return `${y}-${String(m).padStart(2, "0")}`; }
+function daysInMonth(ymStr: string): number {
+  const { y, m } = ym(ymStr);
+  return new Date(y, m, 0).getDate();
+}
+
+function dayOfMonth(date: string): number {
+  return Number(date.slice(8, 10));
+}
 
 function addMonths(ymStr: string, n: number): string {
   const { y, m } = ym(ymStr);
@@ -125,6 +133,16 @@ export default function Timeline() {
   const months = monthIndex(RANGE_END) + 1;
   const totalH = months * pxPerMonth;
   const yOfMonth = (mi: number) => (months - 1 - mi) * pxPerMonth;
+  const pointPadding = 8;
+  const pointStackStep = 10;
+  const pointTop = (date: string) => {
+    const monthTop = yOfMonth(monthIndex(date));
+    const monthDays = daysInMonth(toYm(date));
+    const day = dayOfMonth(date);
+    const usableHeight = Math.max(0, pxPerMonth - pointPadding * 2);
+    const dayOffset = monthDays > 1 ? ((day - 1) / (monthDays - 1)) * usableHeight : usableHeight / 2;
+    return monthTop + pointPadding + dayOffset;
+  };
 
   const events = data.events;
   const spans = data.spans;
@@ -158,6 +176,16 @@ export default function Timeline() {
         {cats.map((cat) => {
           const laneSpans = spans.filter((s) => s.category === cat.key);
           const lanePoints = events.filter((e) => e.category === cat.key);
+          const lanePointOrder = new Map<string, { index: number; total: number }>();
+          const lanePointGroups = new Map<string, Point[]>();
+          for (const point of lanePoints) {
+            const group = lanePointGroups.get(point.date);
+            if (group) group.push(point);
+            else lanePointGroups.set(point.date, [point]);
+          }
+          for (const group of lanePointGroups.values()) {
+            group.forEach((point, index) => lanePointOrder.set(point.id, { index, total: group.length }));
+          }
           const pack = packSpans(laneSpans, monthIndex);
           const cols = Math.max(1, pack.cols);
           const stripeW = cols * SUB_W + (cols - 1) * SUB_GAP;
@@ -195,6 +223,13 @@ export default function Timeline() {
 
                 {lanePoints.map((e) => {
                   const groupedCol = e.group ? pack.groupCol.get(e.group) : undefined;
+                  const sameDay = lanePointOrder.get(e.id);
+                  const dayStackOffset = sameDay && sameDay.total > 1
+                    ? (sameDay.index - (sameDay.total - 1) / 2) * pointStackStep
+                    : 0;
+                  const baseTop = pointTop(e.date);
+                  const laneTop = yOfMonth(monthIndex(e.date));
+                  const top = Math.max(laneTop + 4, Math.min(laneTop + pxPerMonth - 4, baseTop + dayStackOffset));
                   const left = groupedCol !== undefined
                     ? PAD + groupedCol * (SUB_W + SUB_GAP) + SUB_W + 6
                     : PAD + (laneSpans.length > 0 ? stripeW + 10 : 0);
@@ -203,7 +238,7 @@ export default function Timeline() {
                     key={e.id}
                     className={"p2a3-point" + (groupedCol !== undefined ? " is-grouped" : "")}
                     style={{
-                      top: yOfMonth(monthIndex(e.date)),
+                      top,
                       left,
                       borderLeftColor: `color-mix(in srgb, ${e.color} 70%, var(--ink))`,
                     }}

@@ -14,373 +14,23 @@
       "label": "Hackathon/Ideathon"
     },
     {
-      "key": "extraAct",
-      "label": "Extra Activity"
-    },
-    {
-      "key": "project",
-      "label": "Project"
-    },
-    {
       "key": "school",
       "label": "School"
+    },
+    {
+      "key": "myProject",
+      "label": "MyProject"
+    },
+    {
+      "key": "myJob",
+      "label": "MyJob"
+    },
+    {
+      "key": "extraActivity",
+      "label": "ExtraActivity"
     }
   ],
   "events": [
-    {
-      "id": "evt-2026-08-21-event-札幌すごいai会",
-      "kind": "point",
-      "date": "2026-08-21",
-      "title": "札幌すごいAI会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "event"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-08-21-school-電算部",
-      "kind": "point",
-      "date": "2026-08-21",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-08-18-personal-aiオンラインもくもく会",
-      "kind": "point",
-      "date": "2026-08-18",
-      "title": "AIオンラインもくもく会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-08-14-school-電算部",
-      "kind": "point",
-      "date": "2026-08-14",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-08-09-personal-前田小タイムカプセル",
-      "kind": "point",
-      "date": "2026-08-09",
-      "title": "前田小タイムカプセル",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-08-09-event-ストリートデザインスクール-札幌",
-      "kind": "point",
-      "date": "2026-08-09",
-      "title": "ストリートデザインスクール@札幌",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "event"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-08-07-school-電算部",
-      "kind": "point",
-      "date": "2026-08-07",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-08-04-personal-aiオンラインもくもく会",
-      "kind": "point",
-      "date": "2026-08-04",
-      "title": "AIオンラインもくもく会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-07-31-event-メタ研",
-      "kind": "point",
-      "date": "2026-07-31",
-      "title": "メタ研",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "event"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-07-31-school-電算部",
-      "kind": "point",
-      "date": "2026-07-31",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-07-28-work-リメディアル講座",
-      "kind": "point",
-      "date": "2026-07-28",
-      "title": "リメディアル講座",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "work"
-      ],
-      "summary": "E403,E404",
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-07-24-school-電算部",
-      "kind": "point",
-      "date": "2026-07-24",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-07-21-personal-aiオンラインもくもく会",
-      "kind": "point",
-      "date": "2026-07-21",
-      "title": "AIオンラインもくもく会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-07-21-work-リメディアル講座",
-      "kind": "point",
-      "date": "2026-07-21",
-      "title": "リメディアル講座",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "work"
-      ],
-      "summary": "E403,E404",
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-07-17-event-札幌すごいai会",
-      "kind": "point",
-      "date": "2026-07-17",
-      "title": "札幌すごいAI会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "event"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-07-17-school-電算部",
-      "kind": "point",
-      "date": "2026-07-17",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-07-14-work-リメディアル講座",
-      "kind": "point",
-      "date": "2026-07-14",
-      "title": "リメディアル講座",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "work"
-      ],
-      "summary": "E403,E404",
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-07-12-event-ストリートデザインスクール-札幌",
-      "kind": "point",
-      "date": "2026-07-12",
-      "title": "ストリートデザインスクール@札幌",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "event"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-07-10-school-電算部",
-      "kind": "point",
-      "date": "2026-07-10",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-07-07-personal-aiオンラインもくもく会",
-      "kind": "point",
-      "date": "2026-07-07",
-      "title": "AIオンラインもくもく会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-07-07-work-リメディアル講座",
-      "kind": "point",
-      "date": "2026-07-07",
-      "title": "リメディアル講座",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "work"
-      ],
-      "summary": "E403,E404",
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-07-03-school-電算部",
-      "kind": "point",
-      "date": "2026-07-03",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-06-30-work-リメディアル講座",
-      "kind": "point",
-      "date": "2026-06-30",
-      "title": "リメディアル講座",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "work"
-      ],
-      "summary": "E403,E404",
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-28-personal-kicksdrop",
-      "kind": "point",
-      "date": "2026-06-28",
-      "title": "KicksDrop",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-28-event-ストリートデザインスクール-札幌",
-      "kind": "point",
-      "date": "2026-06-28",
-      "title": "ストリートデザインスクール@札幌",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "event"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-26-event-メタ研",
-      "kind": "point",
-      "date": "2026-06-26",
-      "title": "メタ研",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "event"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-26-school-電算部",
-      "kind": "point",
-      "date": "2026-06-26",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-06-23-personal-aiオンラインもくもく会",
-      "kind": "point",
-      "date": "2026-06-23",
-      "title": "AIオンラインもくもく会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-23-work-リメディアル講座",
-      "kind": "point",
-      "date": "2026-06-23",
-      "title": "リメディアル講座",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "work"
-      ],
-      "summary": "E403,E404",
-      "color": "#6366f1"
-    },
     {
       "id": "evt-2026-06-20-event-札幌すごいaiハッカソン",
       "kind": "point",
@@ -394,400 +44,11 @@
       "color": "#ef4444"
     },
     {
-      "id": "evt-2026-06-19-event-札幌すごいai会",
-      "kind": "point",
-      "date": "2026-06-19",
-      "title": "札幌すごいAI会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "event"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-19-school-電算部",
-      "kind": "point",
-      "date": "2026-06-19",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-06-16-work-リメディアル講座",
-      "kind": "point",
-      "date": "2026-06-16",
-      "title": "リメディアル講座",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "work"
-      ],
-      "summary": "E403,E404",
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-14-event-ストリートデザインスクール-札幌",
-      "kind": "point",
-      "date": "2026-06-14",
-      "title": "ストリートデザインスクール@札幌",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "event"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-12-school-電算部",
-      "kind": "point",
-      "date": "2026-06-12",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-06-09-personal-aiオンラインもくもく会",
-      "kind": "point",
-      "date": "2026-06-09",
-      "title": "AIオンラインもくもく会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-09-work-リメディアル講座",
-      "kind": "point",
-      "date": "2026-06-09",
-      "title": "リメディアル講座",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "work"
-      ],
-      "summary": "E403,E404",
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-07-personal-nomaps-students",
-      "kind": "point",
-      "date": "2026-06-07",
-      "title": "NoMaps STUDENTS",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-06-personal-nomaps-students",
-      "kind": "point",
-      "date": "2026-06-06",
-      "title": "NoMaps STUDENTS",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-05-school-電算部",
-      "kind": "point",
-      "date": "2026-06-05",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-06-04-school-エビ予備-線形",
-      "kind": "point",
-      "date": "2026-06-04",
-      "title": "エビ予備 線形",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-06-02-work-リメディアル講座",
-      "kind": "point",
-      "date": "2026-06-02",
-      "title": "リメディアル講座",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "work"
-      ],
-      "summary": "E403,E404",
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-02-school-エビ予備-情報メディア",
-      "kind": "point",
-      "date": "2026-06-02",
-      "title": "エビ予備 情報メディア",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-06-01-school-夢プロジェクト",
-      "kind": "point",
-      "date": "2026-06-01",
-      "title": "夢プロジェクト",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-29-event-メタ研",
-      "kind": "point",
-      "date": "2026-05-29",
-      "title": "メタ研",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "event"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-29-school-電算部",
-      "kind": "point",
-      "date": "2026-05-29",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-29-school-エビ予備-微積",
-      "kind": "point",
-      "date": "2026-05-29",
-      "title": "エビ予備 微積",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-26-personal-aiオンラインもくもく会",
-      "kind": "point",
-      "date": "2026-05-26",
-      "title": "AIオンラインもくもく会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-26-work-リメディアル講座",
-      "kind": "point",
-      "date": "2026-05-26",
-      "title": "リメディアル講座",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "work"
-      ],
-      "summary": "E403,E404",
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-25-personal-paltis-懇親会",
-      "kind": "point",
-      "date": "2026-05-25",
-      "title": "Paltis: 懇親会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-24-work-paltis",
-      "kind": "point",
-      "date": "2026-05-24",
-      "title": "Paltis",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "work"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-23-event-札幌すごいai会-ai駆動開発もくもく会",
-      "kind": "point",
-      "date": "2026-05-23",
-      "title": "札幌すごいAI会-AI駆動開発もくもく会",
-      "category": "project",
-      "tags": [
-        "calendar",
-        "event"
-      ],
-      "color": "#f59e0b"
-    },
-    {
-      "id": "evt-2026-05-22-personal-kicksdrop",
-      "kind": "point",
-      "date": "2026-05-22",
-      "title": "KicksDrop",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-22-school-pf面談-鈴木先生",
-      "kind": "point",
-      "date": "2026-05-22",
-      "title": "PF面談-鈴木先生",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-22-school-電算部",
-      "kind": "point",
-      "date": "2026-05-22",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-22-school-メタバースプロジェクトmtg",
-      "kind": "point",
-      "date": "2026-05-22",
-      "title": "メタバースプロジェクトMTG",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-20-school-metapj-機材",
-      "kind": "point",
-      "date": "2026-05-20",
-      "title": "MetaPJ 機材",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-20-school-metapj-vr体験会",
-      "kind": "point",
-      "date": "2026-05-20",
-      "title": "MetaPJ-VR体験会",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-20-school-バス-サイネージ",
-      "kind": "point",
-      "date": "2026-05-20",
-      "title": "バス　サイネージ",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-19-work-リメディアル講座",
-      "kind": "point",
-      "date": "2026-05-19",
-      "title": "リメディアル講座",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "work"
-      ],
-      "summary": "E403,E404",
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-18-school-metapj-vr体験会",
-      "kind": "point",
-      "date": "2026-05-18",
-      "title": "MetaPJ-VR体験会",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
       "id": "evt-2026-05-17-personal-ezofrogs説明会",
       "kind": "point",
       "date": "2026-05-17",
       "title": "Ezofrogs説明会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-17-personal-西川さんとのmtg",
-      "kind": "point",
-      "date": "2026-05-17",
-      "title": "西川さんとのMTG",
-      "category": "extraAct",
+      "category": "extraActivity",
       "tags": [
         "calendar",
         "personal"
@@ -805,187 +66,6 @@
         "school"
       ],
       "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-16-school-懇親会",
-      "kind": "point",
-      "date": "2026-05-16",
-      "title": "懇親会",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-15-personal-メディアマジック",
-      "kind": "point",
-      "date": "2026-05-15",
-      "title": "メディアマジック",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-15-event-札幌すごいai会",
-      "kind": "point",
-      "date": "2026-05-15",
-      "title": "札幌すごいAI会",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "event"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-15-school-metapj-宣伝-メデ3年",
-      "kind": "point",
-      "date": "2026-05-15",
-      "title": "MetaPJ-宣伝 メデ3年",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-15-school-電算部",
-      "kind": "point",
-      "date": "2026-05-15",
-      "title": "電算部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-15-school-meta-pj-セッティング",
-      "kind": "point",
-      "date": "2026-05-15",
-      "title": "Meta-PJ セッティング",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-14-personal-メタバースプロジェクト",
-      "kind": "point",
-      "date": "2026-05-14",
-      "title": "メタバースプロジェクト",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-14-school-夢プロジェクト",
-      "kind": "point",
-      "date": "2026-05-14",
-      "title": "夢プロジェクト",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-13-personal-colorverse-mtg",
-      "kind": "point",
-      "date": "2026-05-13",
-      "title": "colorverse MTG",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-13-school-metapj-宣伝-メデ1年",
-      "kind": "point",
-      "date": "2026-05-13",
-      "title": "MetaPJ-宣伝 メデ1年",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-13-school-metapj-宣伝-メデ2年",
-      "kind": "point",
-      "date": "2026-05-13",
-      "title": "MetaPJ-宣伝 メデ2年",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-12-personal-kicksdrop",
-      "kind": "point",
-      "date": "2026-05-12",
-      "title": "KicksDrop",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-12-work-リメディアル講座",
-      "kind": "point",
-      "date": "2026-05-12",
-      "title": "リメディアル講座",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "work"
-      ],
-      "summary": "E403,E404",
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-05-11-school-起業部",
-      "kind": "point",
-      "date": "2026-05-11",
-      "title": "起業部",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-05-10-personal-吉川さんmtg",
-      "kind": "point",
-      "date": "2026-05-10",
-      "title": "吉川さんMTG",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
     },
     {
       "id": "evt-2026-03-10-hokkaido-app",
@@ -1007,7 +87,7 @@
       "kind": "point",
       "date": "2026-02-25",
       "title": "LLP 全国大会 出場",
-      "category": "project",
+      "category": "myProject",
       "group": "processnote",
       "tags": [
         "LeanLaunchpad",
@@ -1021,7 +101,7 @@
       "kind": "point",
       "date": "2026-02-12",
       "title": "NTTdocomo 見学",
-      "category": "extraAct",
+      "category": "extraActivity",
       "group": "visit",
       "tags": [
         "Visit"
@@ -1048,7 +128,7 @@
       "kind": "point",
       "date": "2026-01-24",
       "title": "VKet Real in Sapporo 参加",
-      "category": "extraAct",
+      "category": "extraActivity",
       "group": "metaverse",
       "tags": [
         "VR",
@@ -1062,7 +142,7 @@
       "kind": "point",
       "date": "2025-11-29",
       "title": "起業家甲子園 2025 受賞",
-      "category": "project",
+      "category": "myProject",
       "group": "processnote",
       "tags": [
         "Award",
@@ -1090,7 +170,7 @@
       "kind": "point",
       "date": "2025-10-11",
       "title": "No maps函館 参加",
-      "category": "extraAct",
+      "category": "extraActivity",
       "group": "conference",
       "tags": [
         "Conference"
@@ -1118,7 +198,7 @@
       "kind": "point",
       "date": "2025-09-12",
       "title": "Lean Launchpad Hokkaido 最優秀賞",
-      "category": "project",
+      "category": "myProject",
       "group": "processnote",
       "tags": [
         "Award",
@@ -1132,7 +212,7 @@
       "kind": "point",
       "date": "2025-07-21",
       "title": "Vket Real in Sapporo 参加",
-      "category": "extraAct",
+      "category": "extraActivity",
       "group": "metaverse",
       "tags": [
         "VR",
@@ -1160,7 +240,7 @@
       "kind": "point",
       "date": "2025-06-07",
       "title": "北大祭VR体験会",
-      "category": "extraAct",
+      "category": "extraActivity",
       "group": "metaverse",
       "tags": [
         "VR",
@@ -1177,7 +257,7 @@
       "start": "2025-12-01",
       "end": "2026-02-28",
       "title": "大学間越境学習プログラム",
-      "category": "extraAct",
+      "category": "extraActivity",
       "group": "cross-univ",
       "tags": [
         "Yokohama",
@@ -1235,7 +315,7 @@
       "start": "2025-07-12",
       "end": "2027-03-31",
       "title": "ProcessNote 活動",
-      "category": "project",
+      "category": "myProject",
       "group": "processnote",
       "tags": [
         "Project"
@@ -1294,7 +374,7 @@
       "start": "2025-04-15",
       "end": "2027-03-31",
       "title": "ニスコ進学スクール 塾講師",
-      "category": "extraAct",
+      "category": "extraActivity",
       "group": "part-time",
       "tags": [
         "Part-time",
@@ -1309,7 +389,7 @@
       "start": "2026-04-01",
       "end": "2027-03-31",
       "title": "Paltis パソコン教室 講師",
-      "category": "extraAct",
+      "category": "extraActivity",
       "group": "part-time",
       "tags": [
         "Part-time",
@@ -1324,7 +404,7 @@
       "start": "2025-03-20",
       "end": "2026-03-31",
       "title": "北海道メタバース研究会 所属",
-      "category": "extraAct",
+      "category": "extraActivity",
       "group": "metaverse",
       "tags": [
         "Metaverse",
@@ -1339,7 +419,7 @@
       "start": "2026-04-01",
       "end": "2027-03-31",
       "title": "北海道メタバース研究会 代表",
-      "category": "extraAct",
+      "category": "extraActivity",
       "group": "metaverse",
       "tags": [
         "Metaverse",
@@ -1354,7 +434,7 @@
       "start": "2026-04-01",
       "end": "2027-03-31",
       "title": "札幌すごいAI会 学生代表",
-      "category": "extraAct",
+      "category": "extraActivity",
       "group": "ai",
       "tags": [
         "AI",
@@ -1369,7 +449,7 @@
       "start": "2023-04-01",
       "end": "2025-03-31",
       "title": "日常生活の記録ツールを制作・運用",
-      "category": "project",
+      "category": "myProject",
       "group": "life-log",
       "tags": [
         "Personal",
@@ -1379,115 +459,11 @@
       "color": "#10b981"
     },
     {
-      "id": "evt-2026-08-07-school-夏季休み",
-      "kind": "span",
-      "start": "2026-08-07",
-      "end": "2026-09-14",
-      "title": "夏季休み",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-08-03-school-前期定期試験",
-      "kind": "span",
-      "start": "2026-08-03",
-      "end": "2026-08-07",
-      "title": "前期定期試験",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-08-01-personal-倶知安じゃが祭り",
-      "kind": "span",
-      "start": "2026-08-01",
-      "end": "2026-08-03",
-      "title": "倶知安じゃが祭り",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-07-30-school-第2クォーター授業日",
-      "kind": "span",
-      "start": "2026-07-30",
-      "end": "2026-08-01",
-      "title": "第2クォーター授業日",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
       "id": "evt-2026-07-26-school-北科大オーキャン",
       "kind": "span",
       "start": "2026-07-26",
       "end": "2026-07-27",
-      "title": "北科大オーキャン",
-      "category": "school",
-      "tags": [
-        "calendar",
-        "school"
-      ],
-      "color": "#10b981"
-    },
-    {
-      "id": "evt-2026-07-10-personal-北海道立総合研究機構-森林研究本部-展示",
-      "kind": "span",
-      "start": "2026-07-10",
-      "end": "2026-07-11",
-      "title": "北海道立総合研究機構-森林研究本部 展示",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-20-personal-ezofrogs-審査",
-      "kind": "span",
-      "start": "2026-06-20",
-      "end": "2026-06-22",
-      "title": "EzoFrogs 審査",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-13-personal-ezofrogs-審査",
-      "kind": "span",
-      "start": "2026-06-13",
-      "end": "2026-06-15",
-      "title": "EzoFrogs 審査",
-      "category": "extraAct",
-      "tags": [
-        "calendar",
-        "personal"
-      ],
-      "color": "#6366f1"
-    },
-    {
-      "id": "evt-2026-06-08-school-前期中間試験",
-      "kind": "span",
-      "start": "2026-06-08",
-      "end": "2026-06-10",
-      "title": "前期中間試験",
+      "title": "北科大オープンキャンパス",
       "category": "school",
       "tags": [
         "calendar",
