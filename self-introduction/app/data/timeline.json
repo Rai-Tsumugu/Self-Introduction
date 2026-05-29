@@ -28,10 +28,6 @@
     {
       "key": "extraActivity",
       "label": "ExtraActivity"
-    },
-    {
-      "key": "myjob",
-      "label": "MyJob"
     }
   ],
   "events": [
@@ -99,6 +95,19 @@
       ],
       "summary": "Lean Launchpad Hokkaido 最優秀賞を経て全国最終発表に出場。",
       "color": "#f59e0b"
+    },
+    {
+      "id": "evt-2026-02-12-docomo",
+      "kind": "point",
+      "date": "2026-02-12",
+      "title": "NTTdocomo 見学",
+      "category": "extraActivity",
+      "group": "visit",
+      "tags": [
+        "Visit"
+      ],
+      "summary": "NTTドコモ北海道支社への企業見学に参加。",
+      "color": "#6366f1"
     },
     {
       "id": "evt-2026-02-03-sapporo-ideathon",
@@ -262,7 +271,7 @@
       "start": "2025-12-06",
       "end": "2026-03-05",
       "title": "大学間越境学習プログラム",
-      "category": "school",
+      "category": "extraActivity",
       "group": "cross-univ",
       "tags": [
         "Yokohama",
@@ -379,7 +388,7 @@
       "start": "2025-04-15",
       "end": "2027-03-31",
       "title": "ニスコ進学スクール 塾講師",
-      "category": "myjob",
+      "category": "myJob",
       "group": "nisco",
       "tags": [
         "Part-time",
@@ -394,7 +403,7 @@
       "start": "2026-04-01",
       "end": "2027-03-31",
       "title": "Paltis パソコン教室 講師",
-      "category": "myjob",
+      "category": "myJob",
       "group": "paltis",
       "tags": [
         "Part-time",
